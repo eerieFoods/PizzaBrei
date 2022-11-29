@@ -7,16 +7,13 @@ import org.springframework.stereotype.Component
 class ApplicationDataFactory {
 
     fun from(app: Application): ApplicationData {
-        return ApplicationData(
-            app.appID!!,
-            app.name!!,
-            app.description!!,
-            app.authors!!,
-            app.fileUrl!!,
-            app.creationDate!!,
-            app.downloadCount!!,
-            app.version!!
-        )
+        val data = ApplicationData(app.name!!, app.fileUrl!!, app.version!!)
+        data.appId = app.appID
+        data.description = app.description
+        data.authors = app.authors
+        data.creationDate = app.creationDate
+        data.downloadCount =  app.downloadCount
+        return data
     }
 
     fun from(apps: List<Application>): List<ApplicationData> {

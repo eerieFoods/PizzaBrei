@@ -6,15 +6,17 @@ import javax.validation.constraints.NotNull
 
 data class ApplicationData(
     @field:NotBlank
-    var appId: String,
-    @field:NotBlank
     var name: String,
-    var description: String,
-    var authors: String,
     @field:NotNull
     var fileUrl: String,
-    var creationDate: LocalDateTime,
-    var downloadCount: Int,
+    @field:NotNull
     var version: String
-    ) {
+) {
+
+    var appId: String? = null
+    var description: String? = null
+    var authors: String? = null
+    var creationDate: LocalDateTime? = null
+    var downloadCount: Int? = null
+
 }

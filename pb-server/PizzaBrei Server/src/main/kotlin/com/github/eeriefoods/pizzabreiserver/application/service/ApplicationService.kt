@@ -25,4 +25,28 @@ class ApplicationService constructor(val applicationRepository: ApplicationRepos
         return applicationRepository.save(application)
     }
 
+    fun updateApplication(newApplication: Application): Application {
+        val app = applicationRepository.findById(newApplication.appID!!).orElseThrow()
+
+        app.name = newApplication.name
+        app.fileUrl = newApplication.fileUrl
+        app.description = newApplication.version
+        app.authors = newApplication.authors
+        app.version = newApplication.version
+
+        return applicationRepository.save(app)
+    }
+
+    fun incrementDownloadCount(id: String): Application {
+        val app = applicationRepository.findById(id).orElseThrow()
+
+        app.downloadCount = app.downloadCount?.plus(1)
+
+        return applicationRepository.save(app)
+    }
+
+    fun deleteApplication(id: String) {
+        applicationRepository.deleteById(id)
+    }
+
 }
