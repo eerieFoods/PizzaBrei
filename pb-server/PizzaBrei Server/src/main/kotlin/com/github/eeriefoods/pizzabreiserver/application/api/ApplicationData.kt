@@ -1,5 +1,6 @@
 package com.github.eeriefoods.pizzabreiserver.application.api
 
+import com.github.eeriefoods.pizzabreiserver.review.api.ReviewData
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
@@ -18,5 +19,6 @@ data class ApplicationData(
     var authors: String? = null
     var creationDate: LocalDateTime? = null
     var downloadCount: Int? = null
+    var reviews: List<ReviewData>? = null
 
 }
