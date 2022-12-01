@@ -1,9 +1,12 @@
 package com.github.eeriefoods.pizzabreiserver.application.domain
 
+import com.github.eeriefoods.pizzabreiserver.review.domain.Review
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Id
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -36,5 +39,9 @@ open class Application {
 
     @Column(name = "version", nullable = false)
     open var version: String? = null
+
+    @Column(name = "ratings")
+    @OneToMany(cascade = [CascadeType.ALL])
+    open var ratings: MutableList<Review>? = null
 
 }
