@@ -1,4 +1,4 @@
-package com.github.eeriefoods.pizzabrei.ui.theme
+package com.github.eeriefoods.pizzabrei.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

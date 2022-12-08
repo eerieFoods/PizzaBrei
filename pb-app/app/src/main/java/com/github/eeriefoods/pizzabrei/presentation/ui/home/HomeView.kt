@@ -1,4 +1,4 @@
-package com.github.eeriefoods.pizzabrei.ui.screens
+package com.github.eeriefoods.pizzabrei.presentation.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -9,29 +9,34 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.github.eeriefoods.pizzabrei.dataclasses.Application
-import com.github.eeriefoods.pizzabrei.ui.PizzaBreiViewModel
-import com.github.eeriefoods.pizzabrei.ui.cards.AppCard
-import com.github.eeriefoods.pizzabrei.ui.navigation.Screens
-import com.github.eeriefoods.pizzabrei.ui.theme.PizzaBreiTheme
+import com.github.eeriefoods.pizzabrei.domain.model.Application as App
+import com.github.eeriefoods.pizzabrei.presentation.ui.cards.AppCard
+import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
+import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 
-data class HomeUiState(
-    val isDev: Boolean = false,
-//    val  apps: List<Apps> = listOf()
-)
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen(navController: NavController, viewModel: PizzaBreiViewModel){
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
+
+    LaunchedEffect(Unit, block = {
+        viewModel.getApplications()
+    })
+    ShowApps(navController, viewModel)
+}
+
+@Composable
+private fun ShowApps(navController: NavController, viewModel : HomeViewModel){
     PizzaBreiTheme {
         Column {
             Box(modifier = Modifier.height(100.dp).align(Alignment.CenterHorizontally)){
                 Column {
                     Text(
-                        text = ("dasddaasdddddddddddd"),
+                        text = "ddddddd",
                         modifier = Modifier.background(MaterialTheme.colorScheme.background),
                     )
                     Button(
@@ -43,10 +48,8 @@ fun HomeScreen(navController: NavController, viewModel: PizzaBreiViewModel){
                 }
             }
 
-            val itemsList: List<Application> = listOf(Application("a","b","cc" ), Application("d","e","ff"))
-
             LazyColumn{
-                items(itemsList){
+                items(viewModel.applications){
                     AppCard(it,Modifier.padding(8.dp))
                 }
             }

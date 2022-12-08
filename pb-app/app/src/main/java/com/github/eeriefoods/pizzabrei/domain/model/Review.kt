@@ -1,4 +1,4 @@
-package com.github.eeriefoods.pizzabrei.dataclasses
+package com.github.eeriefoods.pizzabrei.domain.model
 
 data class Review(
     val appID: String,

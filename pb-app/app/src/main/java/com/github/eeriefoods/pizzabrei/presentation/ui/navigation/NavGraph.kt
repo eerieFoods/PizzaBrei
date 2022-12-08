@@ -1,30 +1,32 @@
 @file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class)
 
-package com.github.eeriefoods.pizzabrei.ui.navigation
+package com.github.eeriefoods.pizzabrei.presentation.ui.navigation
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.github.eeriefoods.pizzabrei.ui.PizzaBreiViewModel
-import com.github.eeriefoods.pizzabrei.ui.screens.HomeScreen
-import com.github.eeriefoods.pizzabrei.ui.screens.settingsScreen
+import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeViewModel
+import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeScreen
+import com.github.eeriefoods.pizzabrei.presentation.ui.screens.settingsScreen
 
 @Composable
-fun NavGraph (
-    viewModel: PizzaBreiViewModel
+fun NavGraph(
+    viewModel: HomeViewModel,
+    startRoute: String = Screens.Home.route
 ){
     val navController = rememberNavController()
+
     NavHost(
         navController = navController,
-        startDestination = Screens.Home.route)
+        startDestination = startRoute)
     {
         composable(route = Screens.Home.route){
-            HomeScreen(navController, viewModel)
+            HomeScreen(navController,viewModel)
         }
         composable(route = Screens.Settings.route){
-            settingsScreen(navController, viewModel)
+            settingsScreen(navController)
         }
     }
 }
