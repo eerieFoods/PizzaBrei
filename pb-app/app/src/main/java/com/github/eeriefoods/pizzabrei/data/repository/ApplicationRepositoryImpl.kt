@@ -8,4 +8,8 @@ class ApplicationRepositoryImpl(private val dataSource: ApplicationDataSource): 
     override suspend fun getApplications(): List<Application> {
         return dataSource.getApplications()
     }
+
+    override suspend fun putApplication(application: Application){
+        return dataSource.putApplication(application)
+    }
 }

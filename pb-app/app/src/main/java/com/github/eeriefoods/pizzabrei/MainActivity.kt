@@ -12,19 +12,32 @@ import com.github.eeriefoods.pizzabrei.data.repository.ReviewAPIImpl
 import com.github.eeriefoods.pizzabrei.data.repository.ReviewRepositoryImpl
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetApplications
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetReviews
+import com.github.eeriefoods.pizzabrei.domain.usecases.PutApplication
+import com.github.eeriefoods.pizzabrei.domain.usecases.PutReview
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeViewModel
+import com.github.eeriefoods.pizzabrei.presentation.ui.home.putReview
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        val viewModel = HomeViewModel(
+        val homeViewModel = HomeViewModel(
             getApplicationsUseCase = GetApplications(
                 repository = ApplicationRepositoryImpl(
                     dataSource = ApplicationAPIImpl()
                 )
             ),
             getReviewsUseCase = GetReviews(
+                repository = ReviewRepositoryImpl(
+                    dataSource = ReviewAPIImpl()
+                )
+            ),
+            putApplicationUseCase = PutApplication(
+                repository = ApplicationRepositoryImpl(
+                    dataSource = ApplicationAPIImpl()
+                )
+            ),
+            putReviewUseCase = PutReview(
                 repository = ReviewRepositoryImpl(
                     dataSource = ReviewAPIImpl()
                 )
@@ -37,7 +50,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavGraph(viewModel)
+                    NavGraph(homeViewModel)
                 }
             }
         }

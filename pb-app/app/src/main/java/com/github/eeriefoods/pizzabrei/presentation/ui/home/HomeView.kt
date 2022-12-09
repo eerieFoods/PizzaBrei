@@ -14,27 +14,30 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.github.eeriefoods.pizzabrei.domain.model.Application as App
+import com.github.eeriefoods.pizzabrei.domain.model.Application
+import com.github.eeriefoods.pizzabrei.domain.model.Review
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.AppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.ReviewCard
-
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 @ExperimentalFoundationApi
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
 
     LaunchedEffect(Unit, block = {
         viewModel.getApplications()
+        viewModel.getReviews()
     })
     ShowApps(navController, viewModel)
-}
 
+}
 @Composable
-private fun ShowApps(navController: NavController, viewModel : HomeViewModel){
+private fun ShowApps(navController: NavController, viewModel : HomeViewModel) {
     PizzaBreiTheme {
         Column {
-            Box(modifier = Modifier.height(100.dp).align(Alignment.CenterHorizontally)){
+            Box(modifier = Modifier.height(100.dp).align(Alignment.CenterHorizontally)) {
                 Column {
                     Text(
                         text = "ddddddd",
@@ -49,14 +52,31 @@ private fun ShowApps(navController: NavController, viewModel : HomeViewModel){
                 }
             }
 
-            LazyColumn{
-                items(viewModel.applications){
-                    AppCard(it,Modifier.padding(8.dp))
+            LazyColumn {
+                items(viewModel.applications) {
+                    AppCard(it, Modifier.padding(8.dp), viewModel)
+                    Button(onClick = {
+                        putApp(it,viewModel)
+                    }){
+                        Text("app")
+                    }
                 }
-                items(viewModel.reviews){
+                items(viewModel.reviews) {
                     ReviewCard(it, Modifier.padding(8.dp))
+                    Button(onClick = {
+                        putReview(it, viewModel)
+                    }) {
+                        Text("rev")
+                    }
                 }
             }
         }
     }
+}
+
+fun putApp(application: Application, viewModel: HomeViewModel){
+    GlobalScope.launch { viewModel.putApplication(application)}
+}
+fun putReview(review: Review, viewModel: HomeViewModel){
+    GlobalScope.launch { viewModel.putReview(review) }
 }

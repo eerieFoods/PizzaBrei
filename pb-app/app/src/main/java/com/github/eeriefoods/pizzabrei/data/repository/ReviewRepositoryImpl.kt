@@ -8,4 +8,7 @@ class ReviewRepositoryImpl(private val dataSource: ReviewDataSource): ReviewRepo
     override suspend fun getReviews(): List<Review> {
         return dataSource.getReviews()
     }
+    override suspend fun putReview(review: Review){
+        dataSource.putReview(review)
+    }
 }
