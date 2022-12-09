@@ -8,7 +8,10 @@ import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
 import com.github.eeriefoods.pizzabrei.data.repository.ApplicationAPIImpl
 import com.github.eeriefoods.pizzabrei.data.repository.ApplicationRepositoryImpl
+import com.github.eeriefoods.pizzabrei.data.repository.ReviewAPIImpl
+import com.github.eeriefoods.pizzabrei.data.repository.ReviewRepositoryImpl
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetApplications
+import com.github.eeriefoods.pizzabrei.domain.usecases.GetReviews
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeViewModel
@@ -19,6 +22,11 @@ class MainActivity : ComponentActivity() {
             getApplicationsUseCase = GetApplications(
                 repository = ApplicationRepositoryImpl(
                     dataSource = ApplicationAPIImpl()
+                )
+            ),
+            getReviewsUseCase = GetReviews(
+                repository = ReviewRepositoryImpl(
+                    dataSource = ReviewAPIImpl()
                 )
             )
         )

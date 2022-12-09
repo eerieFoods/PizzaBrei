@@ -18,6 +18,7 @@ import com.github.eeriefoods.pizzabrei.domain.model.Application as App
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.AppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
+import com.github.eeriefoods.pizzabrei.presentation.ui.cards.ReviewCard
 
 @ExperimentalFoundationApi
 @Composable
@@ -51,6 +52,9 @@ private fun ShowApps(navController: NavController, viewModel : HomeViewModel){
             LazyColumn{
                 items(viewModel.applications){
                     AppCard(it,Modifier.padding(8.dp))
+                }
+                items(viewModel.reviews){
+                    ReviewCard(it, Modifier.padding(8.dp))
                 }
             }
         }

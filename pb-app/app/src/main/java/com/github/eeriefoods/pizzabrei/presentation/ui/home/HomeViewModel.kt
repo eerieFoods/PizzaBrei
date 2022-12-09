@@ -3,21 +3,28 @@ package com.github.eeriefoods.pizzabrei.presentation.ui.home
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.eeriefoods.pizzabrei.domain.model.Review
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetApplications
+import com.github.eeriefoods.pizzabrei.domain.usecases.GetReviews
 import com.github.eeriefoods.pizzabrei.domain.model.Application as App
 import kotlinx.coroutines.launch
 
 class HomeViewModel constructor(
-    private val getApplicationsUseCase: GetApplications
+    private val getApplicationsUseCase: GetApplications,
+    private val getReviewsUseCase: GetReviews
 ) : ViewModel() {
     private val _applications = mutableStateListOf<App>()
+    private val _reviews = mutableStateListOf<Review>()
 
     val applications: List<App>
         get() = _applications
+    val reviews: List<Review>
+        get() = _reviews
 
     suspend fun getApplications(){
         viewModelScope.launch {
             _applications.addAll(getApplicationsUseCase())
+            _reviews.addAll(getReviewsUseCase())
         }
     }
 }
@@ -51,6 +58,6 @@ class HomeViewModel constructor(
 //    }
 //}
 
-data class HomeUiState (
-    var applicationList: List<App> = emptyList()
-)
+//data class HomeUiState (
+//    var applicationList: List<App> = emptyList()
+//)
