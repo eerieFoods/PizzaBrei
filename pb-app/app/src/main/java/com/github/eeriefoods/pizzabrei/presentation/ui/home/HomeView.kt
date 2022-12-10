@@ -49,6 +49,12 @@ private fun ShowApps(navController: NavController, viewModel : HomeViewModel) {
                         }) {
                         Text("Einstellungen")
                     }
+                    Button(
+                        onClick = {
+                            navController.navigate(Screens.Upload.route)
+                        }) {
+                        Text("Upload")
+                    }
                 }
             }
 

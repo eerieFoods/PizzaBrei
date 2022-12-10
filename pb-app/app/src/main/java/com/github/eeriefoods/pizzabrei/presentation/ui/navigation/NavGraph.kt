@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeScreen
 import com.github.eeriefoods.pizzabrei.presentation.ui.screens.settingsScreen
+import com.github.eeriefoods.pizzabrei.presentation.ui.screens.uploadScreen
+
 
 @Composable
 fun NavGraph(
@@ -27,6 +29,9 @@ fun NavGraph(
         }
         composable(route = Screens.Settings.route){
             settingsScreen(navController)
+        }
+        composable(route = Screens.Upload.route){
+            uploadScreen(navController)
         }
     }
 }
