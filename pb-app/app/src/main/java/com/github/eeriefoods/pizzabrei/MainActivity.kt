@@ -4,40 +4,55 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.github.eeriefoods.pizzabrei.ui.theme.PizzaBreiTheme
+import com.github.eeriefoods.pizzabrei.data.repository.ApplicationAPIImpl
+import com.github.eeriefoods.pizzabrei.data.repository.ApplicationRepositoryImpl
+import com.github.eeriefoods.pizzabrei.data.repository.ReviewAPIImpl
+import com.github.eeriefoods.pizzabrei.data.repository.ReviewRepositoryImpl
+import com.github.eeriefoods.pizzabrei.domain.usecases.GetApplications
+import com.github.eeriefoods.pizzabrei.domain.usecases.GetReviews
+import com.github.eeriefoods.pizzabrei.domain.usecases.PutApplication
+import com.github.eeriefoods.pizzabrei.domain.usecases.PutReview
+import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
+import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
+import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeViewModel
+import com.github.eeriefoods.pizzabrei.presentation.ui.home.putReview
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val homeViewModel = HomeViewModel(
+            getApplicationsUseCase = GetApplications(
+                repository = ApplicationRepositoryImpl(
+                    dataSource = ApplicationAPIImpl()
+                )
+            ),
+            getReviewsUseCase = GetReviews(
+                repository = ReviewRepositoryImpl(
+                    dataSource = ReviewAPIImpl()
+                )
+            ),
+            putApplicationUseCase = PutApplication(
+                repository = ApplicationRepositoryImpl(
+                    dataSource = ApplicationAPIImpl()
+                )
+            ),
+            putReviewUseCase = PutReview(
+                repository = ReviewRepositoryImpl(
+                    dataSource = ReviewAPIImpl()
+                )
+            )
+        )
         super.onCreate(savedInstanceState)
         setContent {
             PizzaBreiTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    NavGraph(homeViewModel)
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    PizzaBreiTheme {
-        Greeting("Android")
     }
 }
