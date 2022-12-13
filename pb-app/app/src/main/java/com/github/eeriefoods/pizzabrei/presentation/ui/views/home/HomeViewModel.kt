@@ -1,12 +1,9 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.home
 
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.unit.Dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.github.eeriefoods.pizzabrei.domain.model.Application
 import com.github.eeriefoods.pizzabrei.domain.model.Review
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetApplications
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetReviews
@@ -29,10 +26,10 @@ class HomeViewModel constructor(
 
     val applications: List<App>
         get() = _applications
-    val recommendedApplications: List<App>
+    val recommendedApplication: App
         get(){
-            if (_applications.isEmpty()){return _applications}
-            return _applications.asSequence().shuffled().take(2).toList()
+            if (_applications.isEmpty()){return Application("404","error: No Connection")}
+            return _applications.random()
         }
     val reviews: List<Review>
         get() = _reviews

@@ -11,7 +11,7 @@ class ApplicationAPIImpl : ApplicationDataSource {
 
     override suspend fun getApplications(): List<Application> {
 //        return ApplicatinoApi.getInstance().getApplications()
-        return listOf(Application("a","b","cc" , images = listOf(Icons.Default.AddCircle)), Application("d","e","ff"), Application("g","z"), Application("u", "v"))
+        return listOf(Application("a","b","cc"), Application("d","e","ff"), Application("g","z"), Application("u", "v"))
     }
     override suspend fun putApplication(application: Application) {
         Log.d("API",application.toString())
