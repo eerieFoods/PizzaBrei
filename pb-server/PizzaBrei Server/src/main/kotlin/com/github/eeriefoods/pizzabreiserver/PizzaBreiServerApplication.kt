@@ -27,21 +27,7 @@ import org.springframework.boot.runApplication
 )
 @SpringBootApplication
 @EnableConfigurationProperties(FtpProperties::class)
-class PizzaBreiServerApplication : CommandLineRunner {
-
-//    @Autowired lateinit var prop: FtpProperties
-
-    override fun run(vararg args: String?) {
-//        val con: FTPSClient?
-//        try {
-//            con = FTPSClient(false)
-//            con.connect(prop.address, 21)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-    }
-
-}
+class PizzaBreiServerApplication
 
 fun main(args: Array<String>) {
     runApplication<PizzaBreiServerApplication>(*args)
