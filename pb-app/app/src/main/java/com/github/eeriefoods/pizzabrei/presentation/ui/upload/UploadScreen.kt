@@ -4,13 +4,9 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.screens
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.layout.Arrangement.Absolute.SpaceBetween
-import androidx.compose.foundation.layout.Arrangement.SpaceBetween
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -19,15 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.os.BuildCompat
 import androidx.core.os.BuildCompat.*
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
-import com.google.modernstorage.photopicker.PhotoPicker
-import java.lang.reflect.Modifier
 
 
 @Composable
@@ -61,51 +52,40 @@ fun uploadScreen(navController: NavController) {
 
         Column() {
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Name")
-                TextField(
-                    value = appName,
-                    onValueChange = {
-                        appName = it
-                    })
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Author")
-                TextField(
-                    value = author,
-                    onValueChange = {
-                        author = it
-                    })
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            TextField(
+                value = appName,
+                onValueChange = {
+                    appName = it
+                },
+                label = { Text("Name")},
+                placeholder = { Text("App Name")}
             )
-            {
-                Text(text = "Version")
-                TextField(
-                    value = version,
-                    onValueChange = {
-                        version = it
-                    })
-            }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically
+            TextField(
+                value = author,
+                onValueChange = {
+                    author = it
+                },
+                label = { Text("Author")},
+                placeholder = { Text("Author 1, Author 2, ...")}
             )
-            {
-                Text(text = "Beschreibung")
-                TextField(
-                    value = description,
-                    onValueChange = {
-                        description = it
-                    })
-            }
+
+            TextField(
+                value = version,
+                onValueChange = {
+                    version = it
+                },
+                label = { Text("Version") },
+                placeholder = { Text("0.3.9") }
+            )
+
+            TextField(
+                value = description,
+                onValueChange = {
+                    description = it
+                },
+                label = { Text("Beschreibung") }
+            )
 
             //PhotoPickerExample()
 
