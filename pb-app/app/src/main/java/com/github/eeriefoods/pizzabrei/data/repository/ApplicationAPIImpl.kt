@@ -1,16 +1,17 @@
 package com.github.eeriefoods.pizzabrei.data.repository
 
-import android.os.Debug
 import android.util.Log
 import com.github.eeriefoods.pizzabrei.data.datasource.ApplicationDataSource
 import com.github.eeriefoods.pizzabrei.domain.model.Application
-import com.github.eeriefoods.pizzabrei.domain.model.ApplicationApiEntity
 
 class ApplicationAPIImpl : ApplicationDataSource {
 
     override suspend fun getApplications(): List<Application> {
 //        return ApplicatinoApi.getInstance().getApplications()
-        return listOf(Application("a","b","cc" ), Application("d","e","ff"))
+        return listOf(
+            Application(
+                "ID 1"
+                ,"WhatsApp","url", "Desc"), Application("ID 2","App 2","url", "Desc2"))
     }
     override suspend fun putApplication(application: Application) {
         Log.d("API",application.toString())

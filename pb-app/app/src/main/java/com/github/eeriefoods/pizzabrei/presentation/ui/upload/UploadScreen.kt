@@ -4,7 +4,6 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.upload
 
 import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -34,19 +33,6 @@ fun uploadScreen(navController: NavController, activity: Activity) {
         val pickPictureLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.GetContent()
         ) { imageUri ->
-
-            val intent = Intent(Intent.ACTION_VIEW)
-            intent.setDataAndType(imageUri!!, "application/vnd.android.package-archive")
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            activity.startActivity(intent)
-            activity.check
-
-            val item = context.contentResolver.openInputStream(imageUri!!)
-            val bytes = item?.readBytes()
-
-            println(bytes?.size)
-            println(bytes.toString())
-            item?.close()
             if (imageUri != null) {
                 // Update the state with the Uri
                 println(imageUri)
