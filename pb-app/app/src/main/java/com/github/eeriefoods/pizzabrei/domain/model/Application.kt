@@ -1,6 +1,6 @@
 package com.github.eeriefoods.pizzabrei.domain.model
 
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import java.time.LocalDateTime
 
 data class Application(
@@ -13,5 +13,5 @@ data class Application(
     val downloadCount: Int? = null,
     val version: String? = null,
     val ratings: List<Review>? = null,
-    val images: List<ImageVector>? = null
+    val images: List<Painter>? = null
 )
