@@ -3,8 +3,10 @@ package com.github.eeriefoods.pizzabrei.presentation.ui.views.home
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.domain.model.Application
 import com.github.eeriefoods.pizzabrei.domain.model.Review
+import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.AppCard
+import com.github.eeriefoods.pizzabrei.presentation.ui.cards.RecomendedAppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.ReviewCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.TopBar
 import kotlinx.coroutines.GlobalScope
@@ -30,11 +34,27 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
     })
     Column {
         TopBar(navController)
+        Divider(Modifier.padding(bottom = 4.dp))
+        ShowRecomendedApps(viewModel)
         ShowApps(viewModel)
     }
 
 
 }
+@Composable
+private fun ShowRecomendedApps(viewModel: HomeViewModel){
+    PizzaBreiTheme {
+        Column {
+            Text("Empfohlen für dich\uD83E\uDD70 : ")
+            LazyRow {
+                items(viewModel.recommendedApplications){
+                    RecomendedAppCard(it, Modifier.padding(8.dp))
+                }
+            }
+        }
+    }
+}
+
 @Composable
 private fun ShowApps(viewModel : HomeViewModel) {
     LazyColumn {

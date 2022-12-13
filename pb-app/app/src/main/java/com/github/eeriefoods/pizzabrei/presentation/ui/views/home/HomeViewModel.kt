@@ -1,12 +1,12 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.home
 
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.eeriefoods.pizzabrei.domain.model.Review
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetApplications
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetReviews
@@ -23,21 +23,24 @@ class HomeViewModel constructor(
     ) : ViewModel() {
     private val _applications = mutableStateListOf<App>()
     private val _reviews = mutableStateListOf<Review>()
-    private val _application = mutableStateListOf<App>()
+    private val _uploadapplication = mutableStateListOf<App>()
     private val _review = mutableStateListOf<Review>()
-//    private val _screenWidth = mutableStateListOf<Dp>()
 //    private val _screenHeight = mutableStateListOf<Dp>()
 
     val applications: List<App>
         get() = _applications
+    val recommendedApplications: List<App>
+        get(){
+            if (_applications.isEmpty()){return _applications}
+            return _applications.asSequence().shuffled().take(2).toList()
+        }
     val reviews: List<Review>
         get() = _reviews
-    val application: App
-        get() = _application[0]
+    val uploadapplication: App
+        get() = _uploadapplication[0]
     val review: Review
         get() = _review[0]
-//    val sreenWidth: Dp
-//        get() = _screenWidth[0]
+
 //    val sreenHeight: Dp
 //        get() = _screenHeight[0]
 
@@ -57,7 +60,7 @@ class HomeViewModel constructor(
 
     suspend fun putApplication(application: App) {
         viewModelScope.launch{
-            _application.add(putApplicationUseCase(application))
+            _uploadapplication.add(putApplicationUseCase(application))
         }
     }
     suspend fun putReview(review: Review){
@@ -65,6 +68,7 @@ class HomeViewModel constructor(
             _review.add(putReviewUseCase(review))
         }
     }
+
 
 //    suspend fun getScreenSize(){
 //        viewModelScope.launch{
