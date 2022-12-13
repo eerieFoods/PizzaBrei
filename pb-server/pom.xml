@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.github.eeriefoods</groupId>
-    <artifactId>PizzaBreiServer</artifactId>
+    <artifactId>pb-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>PizzaBrei Server</name>
     <description>PizzaBrei Server</description>
