@@ -28,6 +28,7 @@ import com.github.eeriefoods.pizzabrei.domain.usecases.PutReview
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
+@ExperimentalFoundationApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterial3Api
 class PizzaBrei : ComponentActivity() {
