@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
@@ -30,7 +31,7 @@ fun TopBar(navController: NavController, viewModel: HomeViewModel){
         Box (Modifier.background(MaterialTheme.colorScheme.background)){
             Card(shape = RoundedCornerShape(15.dp), modifier = Modifier.padding(8.dp)) {
                 Box(modifier = Modifier.padding(8.dp).fillMaxWidth().height(49.dp)) {
-                    Row(Modifier.align(Alignment.CenterStart)) {
+                    Row(Modifier.align(Alignment.CenterStart).focusRequester(viewModel.focusRequester)) {
                         Box(
                             Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer).size(40.dp)
                                 .clickable {

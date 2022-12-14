@@ -9,6 +9,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -33,9 +35,9 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
     }
 
     val numberOfItemsByRow = LocalConfiguration.current.screenWidthDp / 200
-
     LazyColumn{
-        item(contentType = stickyHeader{TopBar(navController,viewModel)}) {}
+        item(contentType = stickyHeader{
+            TopBar(navController,viewModel)}) {}
         item {
             ShowRecomendedApps(viewModel, navController)
         }
@@ -44,7 +46,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
         items(items = viewModel.filteredApps.chunked(numberOfItemsByRow)) { rowItems ->
             Row(
                 horizontalArrangement = Arrangement.spacedBy(14.dp),
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 for (app in rowItems) {
                     AppCard(app, Modifier.padding(8.dp).weight(1f),viewModel, navController)

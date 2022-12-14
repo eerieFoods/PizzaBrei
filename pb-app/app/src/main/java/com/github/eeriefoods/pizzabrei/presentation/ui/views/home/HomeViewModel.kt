@@ -1,6 +1,7 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.home
 
 import androidx.compose.runtime.*
+import androidx.compose.ui.focus.FocusRequester
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.eeriefoods.pizzabrei.domain.model.Application
@@ -24,10 +25,10 @@ class HomeViewModel constructor(
     private val _reviews = mutableStateListOf<Review>()
     private val _uploadReview = mutableStateListOf<Review>()
     var searchText = mutableStateOf("")
+    val focusRequester = FocusRequester()
 
     val applications: List<App>
         get() = _applications
-
     val reviews: List<Review>
         get() = _reviews
     val uploadApp: App
@@ -41,15 +42,15 @@ class HomeViewModel constructor(
             }
             return _recommendedApps[0]
         }
-
-    lateinit var selectedApp: App
-
     val filteredApps: List<App>
         get() {
             if(applications.isEmpty()){return applications}
             return applications.filter {
                 it.name!!.contains(searchText.value)}
         }
+
+
+    lateinit var selectedApp: App
 
     suspend fun getApplications(){
         viewModelScope.launch {
