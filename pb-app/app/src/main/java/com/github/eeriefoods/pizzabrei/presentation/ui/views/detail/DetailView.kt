@@ -81,7 +81,7 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController) {
 
             item {
                 Button(onClick = {
-                    navController.navigate(Views.Home.route)
+                    navController.navigateUp()
                 },
                     Modifier.padding(20.dp)) {
                     Text("Zurück")

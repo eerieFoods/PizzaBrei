@@ -28,9 +28,10 @@ import com.github.eeriefoods.pizzabrei.domain.usecases.PutReview
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
-
+@ExperimentalFoundationApi
+@ExperimentalComposeUiApi
 @ExperimentalMaterial3Api
-class MainActivity : ComponentActivity() {
+class PizzaBrei : ComponentActivity() {
 
     companion object {
         const val PERMISSION_REQUEST_STORAGE = 0
@@ -38,7 +39,6 @@ class MainActivity : ComponentActivity() {
 
     lateinit var downloadController: DownloadController
 
-    @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val apkUrl = "https://androidwave.com/source/apk/app-pagination-recyclerview.apk"
