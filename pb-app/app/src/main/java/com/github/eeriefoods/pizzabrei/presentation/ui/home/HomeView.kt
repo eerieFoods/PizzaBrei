@@ -55,6 +55,7 @@ private fun ShowApps(navController: NavController, viewModel : HomeViewModel) {
                         }) {
                         Text("Upload")
                     }
+
                 }
             }
 
@@ -75,6 +76,13 @@ private fun ShowApps(navController: NavController, viewModel : HomeViewModel) {
                         Text("rev")
                     }
                 }
+            }
+
+            Button(
+                onClick = {
+                    navController.navigate(Screens.Detail.route)
+                }) {
+                Text("Detail")
             }
         }
     }
