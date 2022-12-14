@@ -1,7 +1,7 @@
  @file:OptIn(ExperimentalMaterial3Api::class)
 
 
-package com.github.eeriefoods.pizzabrei.presentation.ui.upload
+package com.github.eeriefoods.pizzabrei.presentation.ui.views.upload
 
 import android.app.Activity
 import android.net.Uri
