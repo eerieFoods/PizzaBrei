@@ -25,9 +25,9 @@ fun TopBar(navController: NavController){
                 Box(modifier = Modifier.padding(8.dp).fillMaxWidth().height(45.dp)) {
                     Row(Modifier.align(Alignment.CenterStart)) {
                         Box(
-                            Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.background).size(40.dp)
+                            Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer).size(40.dp)
                                 .clickable {
-                                    navController.navigate(Screens.Settings.route)
+                                    navController.navigate(Screens.Upload.route)
                                 }) {
                             Text("P", Modifier.align(Alignment.Center))
                         }
