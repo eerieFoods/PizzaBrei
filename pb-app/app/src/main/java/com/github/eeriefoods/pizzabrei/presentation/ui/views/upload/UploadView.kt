@@ -43,42 +43,6 @@ fun UploadView(navController: NavController) {
 
     }
 }
-@Composable
- fun ShowButtons(navController: NavController) {
-    val pickPictureLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { imageUri ->
-        if (imageUri != null) {
-            // Update the state with the Uri
-            println(imageUri)
-        }
-    }
-    Column {
-        LazyRow {
-            item {
-                Button(onClick = {
-                    pickPictureLauncher.launch("image/*")
-                }, Modifier.padding(8.dp)) {
-                    Text("Image Picker!")
-                }
-            }
-
-            item {
-                Button(onClick = {
-                    pickPictureLauncher.launch("application/vnd.android.package-archive")
-                }, Modifier.padding(8.dp)) {
-                    Text("Select APK")
-                }
-            }
-        }
-        Button(onClick = {
-            navController.navigate(Views.Home.route)
-        },
-            Modifier.align(Alignment.CenterHorizontally)) {
-            Text("Upload App")
-        }
-    }
- }
 
  @ExperimentalMaterial3Api
  @Composable
@@ -136,3 +100,40 @@ fun UploadView(navController: NavController) {
          )
      }
  }
+
+@Composable
+fun ShowButtons(navController: NavController) {
+    val pickPictureLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { imageUri ->
+        if (imageUri != null) {
+            // Update the state with the Uri
+            println(imageUri)
+        }
+    }
+    Column {
+        LazyRow {
+            item {
+                Button(onClick = {
+                    pickPictureLauncher.launch("image/*")
+                }, Modifier.padding(8.dp)) {
+                    Text("Image Picker!")
+                }
+            }
+
+            item {
+                Button(onClick = {
+                    pickPictureLauncher.launch("application/vnd.android.package-archive")
+                }, Modifier.padding(8.dp)) {
+                    Text("Select APK")
+                }
+            }
+        }
+        Button(onClick = {
+            navController.navigateUp()
+        },
+            Modifier.align(Alignment.CenterHorizontally)) {
+            Text("Upload App")
+        }
+    }
+}
