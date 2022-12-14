@@ -1,8 +1,9 @@
  @file:OptIn(ExperimentalMaterial3Api::class)
 
 
-package com.github.eeriefoods.pizzabrei.presentation.ui.screens
+package com.github.eeriefoods.pizzabrei.presentation.ui.upload
 
+import android.app.Activity
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,6 +16,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.os.BuildCompat.*
 import androidx.navigation.NavController
@@ -22,15 +24,18 @@ import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
 
 
-@Composable
-fun uploadScreen(navController: NavController) {
+ @Composable
+fun uploadScreen(navController: NavController, activity: Activity) {
     PizzaBreiTheme {
+
+        val context = LocalContext.current
 
         val pickPictureLauncher = rememberLauncherForActivityResult(
             ActivityResultContracts.GetContent()
         ) { imageUri ->
             if (imageUri != null) {
                 // Update the state with the Uri
+                println(imageUri)
             }
         }
 
@@ -115,9 +120,9 @@ fun uploadScreen(navController: NavController) {
 
             item {
                 Button(onClick = {
-                    pickPictureLauncher.launch("downloads/*")
+                    pickPictureLauncher.launch("application/vnd.android.package-archive")
                 }) {
-                    Text("File Picker!")
+                    Text("Select APK")
                 }
             }
 
@@ -133,4 +138,3 @@ fun uploadScreen(navController: NavController) {
     }
 
 }
-
