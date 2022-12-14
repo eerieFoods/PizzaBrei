@@ -40,5 +40,8 @@ fun NavGraph(
         composable(route = Screens.Upload.route){
             uploadView(navController, activity)
         }
+        composable(route = Screens.Detail.route){
+            detailScreen(navController)
+        }
     }
 }
