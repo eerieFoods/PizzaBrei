@@ -24,7 +24,6 @@ import com.github.eeriefoods.pizzabrei.domain.usecases.PutApplication
 import com.github.eeriefoods.pizzabrei.domain.usecases.PutReview
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
-import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
 
 class MainActivity : ComponentActivity() {

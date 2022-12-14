@@ -1,6 +1,7 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.home
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.eeriefoods.pizzabrei.domain.model.Application

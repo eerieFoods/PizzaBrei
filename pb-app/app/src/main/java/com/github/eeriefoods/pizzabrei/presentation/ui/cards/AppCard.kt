@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.github.eeriefoods.pizzabrei.domain.model.Application
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
-import com.github.eeriefoods.pizzabrei.presentation.ui.home.HomeViewModel
+import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 
 @Composable
 fun AppCard(application: Application, modifier: Modifier, viewModel: HomeViewModel) {
@@ -25,33 +25,36 @@ fun AppCard(application: Application, modifier: Modifier, viewModel: HomeViewMod
             shape = RoundedCornerShape(15.dp),
         ) {
             Row {
-                if (application.images != null && application.images.isNotEmpty())
+                if (!application.images.isNullOrEmpty()) {
                     Image(
                         painter = application.images.first(),
                         contentDescription = "",
                         modifier = modifier.clip(RoundedCornerShape(15.dp)),
                         alignment = Alignment.TopStart
                     )
+                }
                 Box(
                     modifier = Modifier
-                        .height(70.dp)
+                        .height(150.dp)
                         .padding(8.dp)
                 ) {
-                    Text(
-                        application.name,
-                        fontSize = 30.sp,
-                        textAlign = TextAlign.Center
-                    )
+
+                    Column(modifier = modifier.padding(start = 5.dp)) {
+                        Text(
+                            application.name!!,
+                            fontSize = 20.sp,
+                            textAlign = TextAlign.Center
+                        )
+                        Text(application.description.toString())
+                        Text(
+                            application.version.toString(),
+                            modifier = modifier.padding(top = 5.dp),
+                            color = Color.LightGray
+                        )
+                    }
                 }
             }
-            Column(modifier = modifier.padding(start = 5.dp)) {
-                Text(application.description.toString())
-                Text(
-                    application.version.toString(),
-                    modifier = modifier.padding(top = 5.dp),
-                    color = Color.LightGray
-                )
-            }
+
         }
     }
 }

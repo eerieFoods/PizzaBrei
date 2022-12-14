@@ -2,16 +2,9 @@ package com.github.eeriefoods.pizzabrei.presentation.ui.views.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.domain.model.Application
@@ -38,7 +32,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
         viewModel.getApplications()
         viewModel.getReviews()
     }
-
+    val numberOfItemsByRow = LocalConfiguration.current.screenWidthDp / 200
     LazyColumn{
         item(contentType = stickyHeader{TopBar(navController)}) {}
         item {
@@ -46,10 +40,16 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
         }
         item(contentType = stickyHeader { ShowCategoryButtons(viewModel) }){}
 
-            items(viewModel.applications){
-            AppCard(it, Modifier.padding(8.dp))
-            AppCard(it, Modifier.padding(8.dp))
-            AppCard(it, Modifier.padding(8.dp))
+        items(items = viewModel.applications.chunked(numberOfItemsByRow)) { rowItems ->
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
+                modifier = Modifier.padding(horizontal = 16.dp),
+            ) {
+                for (app in rowItems) {
+                    AppCard(app, Modifier.padding(8.dp).weight(1f),viewModel)
+                }
+            }
+            Spacer(Modifier.height(14.dp))
         }
     }
 }
@@ -82,22 +82,6 @@ private fun ShowCategoryButtons(viewModel: HomeViewModel){
         Divider(Modifier.padding(bottom = 4.dp))
     }
 }
-
-
-@Composable
-private fun ShowApps(lazyListScope: LazyListScope, viewModel: HomeViewModel){
-    lazyListScope.items(viewModel.applications) {
-        AppCard(it, Modifier.padding(8.dp))
-        AppCard(it, Modifier.padding(8.dp))
-        AppCard(it, Modifier.padding(8.dp))
-    }
-}
-
-
-
-
-
-
 
 //        Column {
 //            Box(modifier = Modifier.height(100.dp).align(Alignment.CenterHorizontally)) {
