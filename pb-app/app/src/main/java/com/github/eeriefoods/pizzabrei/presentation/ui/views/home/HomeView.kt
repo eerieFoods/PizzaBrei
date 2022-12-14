@@ -21,6 +21,7 @@ import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.AppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.RecomendedAppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.TopBar
+import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -76,6 +77,12 @@ private fun ShowCategoryButtons(viewModel: HomeViewModel){
                 }
                 Button(onClick = {}, Modifier){
                     Text("Kat3")
+                }
+                Button(
+                    onClick = {
+                        navController.navigate(Screens.Detail.route)
+                    }) {
+                    Text("Detail")
                 }
             }
         }
