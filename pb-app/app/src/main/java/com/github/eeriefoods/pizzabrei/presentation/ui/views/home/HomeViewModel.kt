@@ -46,7 +46,7 @@ class HomeViewModel constructor(
         get() {
             if(applications.isEmpty()){return applications}
             return applications.filter {
-                it.name!!.contains(searchText.value)}
+                it.name!!.contains(searchText.value, ignoreCase = true)}
         }
 
 
