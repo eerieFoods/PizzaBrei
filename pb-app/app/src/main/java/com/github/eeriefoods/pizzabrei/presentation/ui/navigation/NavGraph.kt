@@ -1,26 +1,27 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalFoundationApi::class)
-
 package com.github.eeriefoods.pizzabrei.presentation.ui.navigation
 
-import android.app.Activity
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.github.eeriefoods.pizzabrei.presentation.ui.views.detail.DetailView
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeScreen
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.search.SearchScreen
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.settings.SettingsScreen
-import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.uploadView
+import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadView
 
 
+@ExperimentalComposeUiApi
+@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Composable
 fun NavGraph(
     viewModel: HomeViewModel,
-    startRoute: String = Screens.Home.route,
-    activity: Activity
+    startRoute: String = Views.Home.route,
 ){
     val navController = rememberNavController()
 
@@ -28,20 +29,20 @@ fun NavGraph(
         navController = navController,
         startDestination = startRoute)
     {
-        composable(route = Screens.Home.route){
+        composable(route = Views.Home.route){
             HomeScreen(navController,viewModel)
         }
-        composable(route = Screens.Settings.route){
+        composable(route = Views.Settings.route){
             SettingsScreen(navController)
         }
-        composable(route = Screens.Search.route){
+        composable(route = Views.Search.route){
             SearchScreen(navController)
         }
-        composable(route = Screens.Upload.route){
-            uploadView(navController, activity)
+        composable(route = Views.Upload.route){
+            UploadView(navController)
         }
-        composable(route = Screens.Detail.route){
-            detailScreen(navController)
+        composable(route = Views.Detail.route){
+            DetailView(viewModel, navController)
         }
     }
 }

@@ -1,9 +1,5 @@
- @file:OptIn(ExperimentalMaterial3Api::class)
-
-
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.upload
 
-import android.app.Activity
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,14 +14,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.core.os.BuildCompat.*
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
-import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
+import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Views
 
 
- @Composable
-fun uploadView(navController: NavController, activity: Activity) {
+@ExperimentalMaterial3Api
+@Composable
+fun UploadView(navController: NavController) {
     PizzaBreiTheme {
 
         Box{
@@ -76,7 +72,7 @@ fun uploadView(navController: NavController, activity: Activity) {
             }
         }
         Button(onClick = {
-            navController.navigate(Screens.Home.route)
+            navController.navigate(Views.Home.route)
         },
             Modifier.align(Alignment.CenterHorizontally)) {
             Text("Upload App")
@@ -84,6 +80,7 @@ fun uploadView(navController: NavController, activity: Activity) {
     }
  }
 
+ @ExperimentalMaterial3Api
  @Composable
  private fun ShowTextFields(){
      var author by remember {
