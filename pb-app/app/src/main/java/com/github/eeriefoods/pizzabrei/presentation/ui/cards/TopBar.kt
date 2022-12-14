@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
-import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
+import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Views
 
 @Composable
 fun TopBar(navController: NavController){
@@ -27,12 +27,12 @@ fun TopBar(navController: NavController){
                         Box(
                             Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer).size(40.dp)
                                 .clickable {
-                                    navController.navigate(Screens.Upload.route)
+                                    navController.navigate(Views.Upload.route)
                                 }) {
                             Text("P", Modifier.align(Alignment.Center))
                         }
                         Box(Modifier.clip(CircleShape).fillMaxSize().clickable {
-                            navController.navigate(Screens.Search.route)
+                            navController.navigate(Views.Search.route)
                         }) {
                             Text("Search", Modifier.padding(8.dp).align(Alignment.CenterStart))
                             Icon(

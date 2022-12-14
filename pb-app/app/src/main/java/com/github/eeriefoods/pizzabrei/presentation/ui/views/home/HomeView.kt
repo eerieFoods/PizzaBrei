@@ -21,8 +21,7 @@ import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.AppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.RecomendedAppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.TopBar
-import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
 @ExperimentalFoundationApi
@@ -32,14 +31,16 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
     LaunchedEffect(viewModel){
         viewModel.getApplications()
         viewModel.getReviews()
+        viewModel.getRandomApp()
     }
+
     val numberOfItemsByRow = LocalConfiguration.current.screenWidthDp / 200
     LazyColumn{
         item(contentType = stickyHeader{TopBar(navController)}) {}
         item {
-            ShowRecomendedApps(viewModel)
+            ShowRecomendedApps(viewModel, navController)
         }
-        item(contentType = stickyHeader { ShowCategoryButtons(viewModel) }){}
+        item(contentType = stickyHeader { ShowCategoryButtons() }){}
 
         items(items = viewModel.applications.chunked(numberOfItemsByRow)) { rowItems ->
             Row(
@@ -47,7 +48,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
                 modifier = Modifier.padding(horizontal = 16.dp),
             ) {
                 for (app in rowItems) {
-                    AppCard(app, Modifier.padding(8.dp).weight(1f),viewModel)
+                    AppCard(app, Modifier.padding(8.dp).weight(1f),viewModel, navController)
                 }
             }
             Spacer(Modifier.height(14.dp))
@@ -55,17 +56,17 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
     }
 }
 @Composable
-private fun ShowRecomendedApps(viewModel: HomeViewModel){
+private fun ShowRecomendedApps(viewModel: HomeViewModel,navController: NavController){
     PizzaBreiTheme {
         Column {
             Text("Empfohlen für dich: ",Modifier.padding(start = 16.dp))
-            RecomendedAppCard(viewModel.recommendedApplication, Modifier.padding(8.dp))
+            RecomendedAppCard(viewModel.recommendedApp, Modifier.padding(8.dp),viewModel, navController)
         }
     }
 }
 
 @Composable
-private fun ShowCategoryButtons(viewModel: HomeViewModel){
+private fun ShowCategoryButtons(){
     PizzaBreiTheme {
         Box (Modifier.background(MaterialTheme.colorScheme.surface).padding(8.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
@@ -78,58 +79,15 @@ private fun ShowCategoryButtons(viewModel: HomeViewModel){
                 Button(onClick = {}, Modifier){
                     Text("Kat3")
                 }
-                Button(
-                    onClick = {
-                        navController.navigate(Screens.Detail.route)
-                    }) {
-                    Text("Detail")
-                }
             }
         }
         Divider(Modifier.padding(bottom = 4.dp))
     }
 }
 
-//        Column {
-//            Box(modifier = Modifier.height(100.dp).align(Alignment.CenterHorizontally)) {
-//                Column {
-//                    Text(
-//                        text = "ddddddd",
-//                        modifier = Modifier.background(MaterialTheme.colorScheme.background),
-//                    )
-//                    Button(
-//                        onClick = {
-//                            navController.navigate(Screens.Settings.route)
-//                        }) {
-//                        Text("Einstellungen")
-//                    }
-//                }
-//            }
-//
-//            LazyColumn {
-//                items(viewModel.applications) {
-//                    AppCard(it, Modifier.padding(8.dp))
-//                    Button(onClick = {
-//                        putApp(it,viewModel)
-//                    }){
-//                        Text("app")
-//                    }
-//                }
-//                items(viewModel.reviews) {
-//                    ReviewCard(it, Modifier.padding(8.dp))
-//                    Button(onClick = {
-//                        putReview(it, viewModel)
-//                    }) {
-//                        Text("rev")
-//                    }
-//                }
-//            }
-//        }
-//    }
-
 private fun putApp(application: Application, viewModel: HomeViewModel){
-    GlobalScope.launch { viewModel.putApplication(application)}
+    MainScope().launch { viewModel.putApplication(application)}
 }
 private fun putReview(review: Review, viewModel: HomeViewModel){
-    GlobalScope.launch { viewModel.putReview(review) }
+    MainScope().launch { viewModel.putReview(review) }
 }

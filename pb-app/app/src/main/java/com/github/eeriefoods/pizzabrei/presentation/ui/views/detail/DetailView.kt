@@ -1,7 +1,4 @@
- @file:OptIn(ExperimentalMaterial3Api::class)
-
-
-package com.github.eeriefoods.pizzabrei.presentation.ui.screens
+package com.github.eeriefoods.pizzabrei.presentation.ui.views.detail
 
 import android.view.MotionEvent
 import androidx.compose.animation.core.Spring
@@ -20,20 +17,18 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.os.BuildCompat.*
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.R
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
-import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Screens
+import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Views
+import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 
 
- @OptIn(ExperimentalComposeUiApi::class)
- @Composable
-fun detailScreen(navController: NavController) {
+@ExperimentalComposeUiApi
+@Composable
+fun DetailView(viewModel: HomeViewModel, navController: NavController) {
+     val application = viewModel.selectedApp
     PizzaBreiTheme {
-
-
-
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -41,13 +36,13 @@ fun detailScreen(navController: NavController) {
         ) {
 
             item {
-                Text(text = "Minecraft", fontSize = 30.sp)
+                Text(text = application.name!!, fontSize = 30.sp)
             }
             item {
-                Text(text = "by Team PizzaBrei", fontSize = 18.sp)
+                Text(text = application.authors!!, fontSize = 18.sp)
             }
             item {
-                Text(text = "Version: 10.5.3", fontSize = 18.sp)
+                Text(text = application.version!!, fontSize = 18.sp)
             }
 
             item {
@@ -86,7 +81,7 @@ fun detailScreen(navController: NavController) {
 
             item {
                 Button(onClick = {
-                    navController.navigate(Screens.Home.route)
+                    navController.navigate(Views.Home.route)
                 },
                     Modifier.padding(20.dp)) {
                     Text("Zurück")

@@ -1,7 +1,6 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.home
 
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.eeriefoods.pizzabrei.domain.model.Application
@@ -20,27 +19,28 @@ class HomeViewModel constructor(
     private val putReviewUseCase: PutReview
     ) : ViewModel() {
     private val _applications = mutableStateListOf<App>()
+    private val _uploadApp = mutableStateListOf<App>()
+    private val _recomendedApps = mutableStateListOf<App>()
     private val _reviews = mutableStateListOf<Review>()
-    private val _uploadapplication = mutableStateListOf<App>()
-    private val _review = mutableStateListOf<Review>()
-//    private val _screenHeight = mutableStateListOf<Dp>()
+    private val _uploadReview = mutableStateListOf<Review>()
 
     val applications: List<App>
         get() = _applications
-    val recommendedApplication: App
-        get(){
-            if (_applications.isEmpty()){return Application("404","error: No Connection")}
-            return _applications.random()
-        }
+
     val reviews: List<Review>
         get() = _reviews
-    val uploadapplication: App
-        get() = _uploadapplication[0]
-    val review: Review
-        get() = _review[0]
+    val uploadApp: App
+        get() = _uploadApp[0]
+    val uploadReview: Review
+        get() = _uploadReview[0]
+    val recommendedApp: App
+        get() {
+            if (_recomendedApps.isEmpty()){return Application()
+            }
+            return _recomendedApps[0]
+        }
 
-//    val sreenHeight: Dp
-//        get() = _screenHeight[0]
+    lateinit var selectedApp: App
 
     suspend fun getApplications(){
         viewModelScope.launch {
@@ -58,21 +58,18 @@ class HomeViewModel constructor(
 
     suspend fun putApplication(application: App) {
         viewModelScope.launch{
-            _uploadapplication.add(putApplicationUseCase(application))
+            _uploadApp.add(putApplicationUseCase(application))
         }
     }
     suspend fun putReview(review: Review){
         viewModelScope.launch {
-            _review.add(putReviewUseCase(review))
+            _uploadReview.add(putReviewUseCase(review))
         }
     }
-
-
-//    suspend fun getScreenSize(){
-//        viewModelScope.launch{
-//            val configuration = LocalConfiguration.current
-//            _screenWidth.add(configuration.screenWidthDp.dp)
-//            _screenHeight.add(configuration.screenHeightDp.dp)
-//        }
-//    }
+    suspend fun getRandomApp(){
+        viewModelScope.launch {
+            _recomendedApps.removeAll(_recomendedApps)
+            _recomendedApps.add(_applications.random())
+        }
+    }
 }

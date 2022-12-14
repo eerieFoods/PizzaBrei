@@ -10,8 +10,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.core.app.ActivityCompat
 import com.github.eeriefoods.pizzabrei.data.DownloadController
@@ -27,6 +29,7 @@ import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
 
+@ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
 
     companion object {
@@ -35,6 +38,7 @@ class MainActivity : ComponentActivity() {
 
     lateinit var downloadController: DownloadController
 
+    @ExperimentalComposeUiApi
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val apkUrl = "https://androidwave.com/source/apk/app-pagination-recyclerview.apk"
@@ -63,14 +67,14 @@ class MainActivity : ComponentActivity() {
             )
         )
         super.onCreate(savedInstanceState)
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
         setContent {
             PizzaBreiTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavGraph(homeViewModel, activity = this)
+                    NavGraph(homeViewModel)
                 }
             }
         }
