@@ -5,13 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -24,6 +23,7 @@ import com.github.eeriefoods.pizzabrei.presentation.ui.cards.TopBar
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
 
+@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
@@ -36,16 +36,17 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
 
     val numberOfItemsByRow = LocalConfiguration.current.screenWidthDp / 200
     LazyColumn{
-        item(contentType = stickyHeader{TopBar(navController)}) {}
+        item(contentType = stickyHeader{
+            TopBar(navController,viewModel)}) {}
         item {
             ShowRecomendedApps(viewModel, navController)
         }
         item(contentType = stickyHeader { ShowCategoryButtons() }){}
 
-        items(items = viewModel.applications.chunked(numberOfItemsByRow)) { rowItems ->
+        items(items = viewModel.filteredApps.chunked(numberOfItemsByRow)) { rowItems ->
             Row(
                 horizontalArrangement = Arrangement.spacedBy(14.dp),
-                modifier = Modifier.padding(horizontal = 16.dp),
+                modifier = Modifier.padding(horizontal = 16.dp)
             ) {
                 for (app in rowItems) {
                     AppCard(app, Modifier.padding(8.dp).weight(1f),viewModel, navController)

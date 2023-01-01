@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.detail.DetailView
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeScreen
-import com.github.eeriefoods.pizzabrei.presentation.ui.views.search.SearchScreen
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.settings.SettingsScreen
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadView
 
@@ -34,9 +33,6 @@ fun NavGraph(
         }
         composable(route = Views.Settings.route){
             SettingsScreen(navController)
-        }
-        composable(route = Views.Search.route){
-            SearchScreen(navController)
         }
         composable(route = Views.Upload.route){
             UploadView(navController)
