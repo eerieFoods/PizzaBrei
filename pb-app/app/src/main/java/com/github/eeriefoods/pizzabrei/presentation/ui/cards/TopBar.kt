@@ -30,10 +30,10 @@ fun TopBar(navController: NavController, viewModel: HomeViewModel){
     PizzaBreiTheme {
         Box (Modifier.background(MaterialTheme.colorScheme.background)){
             Card(shape = RoundedCornerShape(15.dp), modifier = Modifier.padding(8.dp)) {
-                Box(modifier = Modifier.padding(8.dp).fillMaxWidth().height(49.dp)) {
+                Box(modifier = Modifier.padding(8.dp).fillMaxWidth().height(52.dp)) {
                     Row(Modifier.align(Alignment.CenterStart).focusRequester(viewModel.focusRequester)) {
                         Box(
-                            Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer).size(40.dp)
+                            Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer).size(52.dp)
                                 .clickable {
                                     navController.navigate(Views.Upload.route)
                                 }) {
@@ -46,7 +46,8 @@ fun TopBar(navController: NavController, viewModel: HomeViewModel){
                                     viewModel.searchText.value = it
                                 },
                                 label = { Text("Search") },
-                                singleLine = true
+                                singleLine = true,
+                                modifier = Modifier.fillMaxWidth().padding(start = 8.dp)
                             )
                             Icon(
                                 Icons.Rounded.Search,
