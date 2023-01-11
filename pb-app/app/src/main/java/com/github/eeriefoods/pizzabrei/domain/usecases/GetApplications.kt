@@ -7,6 +7,12 @@ class GetApplications (
     private val repository: ApplicationRepository
 ){
     suspend operator fun invoke(): List<Application>{
-        return repository.getApplications()
+        val applications = mutableListOf<Application>()
+        repository.getApplications()!!.let{
+            for (application in it){
+                applications.add(application.application())
+            }
+            return applications
+        }
     }
 }

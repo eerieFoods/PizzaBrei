@@ -9,8 +9,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -31,7 +29,6 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
     LaunchedEffect(viewModel){
         viewModel.getApplications()
         viewModel.getReviews()
-        viewModel.getRandomApp()
     }
 
     val numberOfItemsByRow = LocalConfiguration.current.screenWidthDp / 200
@@ -61,7 +58,7 @@ private fun ShowRecomendedApps(viewModel: HomeViewModel,navController: NavContro
     PizzaBreiTheme {
         Column {
             Text("Empfohlen für dich: ",Modifier.padding(start = 16.dp))
-            RecomendedAppCard(viewModel.recommendedApp, Modifier.padding(8.dp),viewModel, navController)
+            RecomendedAppCard(viewModel.filteredApps.randomOrNull(), Modifier.padding(8.dp),viewModel, navController)
         }
     }
 }

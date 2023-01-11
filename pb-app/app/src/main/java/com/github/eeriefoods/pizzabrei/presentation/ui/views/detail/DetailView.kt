@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.R
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
-import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Views
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
+import java.lang.NullPointerException
 
 
 @ExperimentalComposeUiApi
@@ -34,15 +34,25 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
+            var name = ""
+            var authors = ""
+            var version = ""
+            try{
+                name = application.name!!
+                authors = application.authors!!
+                version = application.version!!
+            }catch (e: NullPointerException) {
+                e.printStackTrace()
+            }
 
             item {
-                Text(text = application.name!!, fontSize = 30.sp)
+                Text(text = name, fontSize = 30.sp)
             }
             item {
-                Text(text = application.authors!!, fontSize = 18.sp)
+                Text(text = authors, fontSize = 18.sp)
             }
             item {
-                Text(text = application.version!!, fontSize = 18.sp)
+                Text(text = version, fontSize = 18.sp)
             }
 
             item {
@@ -62,9 +72,8 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController) {
                     Text("Installieren", fontSize = 20.sp)
                 }
             }
-            
-            
-            item { 
+
+            item {
                 Text(text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet")
             }
 

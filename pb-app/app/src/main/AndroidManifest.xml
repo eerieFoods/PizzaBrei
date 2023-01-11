@@ -18,6 +18,7 @@
         android:theme="@style/Theme.PizzaBrei"
         tools:targetApi="31"
         android:requestLegacyExternalStorage="true"
+        android:usesCleartextTraffic="true"
         >
         <activity
             android:name=".PizzaBrei"

@@ -1,6 +1,5 @@
 package com.github.eeriefoods.pizzabrei.domain.model
 
-import java.time.LocalDateTime
 
 data class ApplicationApiEntity(
     val appID: String,
@@ -8,12 +7,12 @@ data class ApplicationApiEntity(
     val fileURL: String,
     val description: String? = null,
     var authors: String? = null,
-    val creationDate: LocalDateTime? = null,
+    val creationDate: String? = null,
     val downloadCount: Int? = null,
     val version: String? = null,
     val ratings: List<Review>? = null
-){
-    fun ApplicationApiEntity.application(): Application {
+) {
+    fun application(): Application {
         return Application(
             appID = appID,
             name = name,
