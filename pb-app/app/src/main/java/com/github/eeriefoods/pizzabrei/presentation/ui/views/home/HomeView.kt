@@ -18,8 +18,8 @@ import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.AppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.RecomendedAppCard
 import com.github.eeriefoods.pizzabrei.presentation.ui.cards.TopBar
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.time.LocalDateTime
 
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi
@@ -38,7 +38,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel){
         item {
             ShowRecomendedApps(viewModel, navController)
         }
-        item(contentType = stickyHeader { ShowCategoryButtons() }){}
+        item(contentType = stickyHeader { ShowCategoryButtons(viewModel) }){}
 
         items(items = viewModel.filteredApps.chunked(numberOfItemsByRow)) { rowItems ->
             Row(
@@ -64,11 +64,11 @@ private fun ShowRecomendedApps(viewModel: HomeViewModel,navController: NavContro
 }
 
 @Composable
-private fun ShowCategoryButtons(){
+private fun ShowCategoryButtons(viewModel: HomeViewModel){
     PizzaBreiTheme {
         Box (Modifier.background(MaterialTheme.colorScheme.surface).padding(8.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = {}, Modifier){
+                Button(onClick = { putApp(Application("123","dd", "sd", "lore", "me", LocalDateTime.now().toString(), 3, "1.0"), viewModel) }, Modifier){
                     Text("Kat1")
                 }
                 Button(onClick = {}, Modifier){
@@ -83,9 +83,13 @@ private fun ShowCategoryButtons(){
     }
 }
 
-private fun putApp(application: Application, viewModel: HomeViewModel){
-    MainScope().launch { viewModel.putApplication(application)}
+private fun putApp(application: Application, viewModel: HomeViewModel) = runBlocking {
+    launch {
+        viewModel.putApplication(application)
+    }
 }
-private fun putReview(review: Review, viewModel: HomeViewModel){
-    MainScope().launch { viewModel.putReview(review) }
+private suspend fun putReview(review: Review, viewModel: HomeViewModel)= runBlocking {
+    launch {
+        viewModel.putReview(review)
+    }
 }

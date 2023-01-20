@@ -37,10 +37,14 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController) {
             var name = ""
             var authors = ""
             var version = ""
+            var description = ""
+            var downloads = 0
             try{
                 name = application.name!!
                 authors = application.authors!!
                 version = application.version!!
+                description = application.description!!
+                downloads = application.downloadCount!!
             }catch (e: NullPointerException) {
                 e.printStackTrace()
             }
@@ -74,7 +78,7 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController) {
             }
 
             item {
-                Text(text = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet")
+                Text(text = description)
             }
 
 
@@ -84,7 +88,7 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController) {
 
 
             item {
-                Text(text = "Downloads: 3", fontSize = 18.sp)
+                Text(text = "Downloads: $downloads", fontSize = 18.sp)
             }
 
 

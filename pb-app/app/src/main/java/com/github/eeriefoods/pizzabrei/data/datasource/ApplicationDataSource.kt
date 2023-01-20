@@ -6,5 +6,5 @@ import retrofit2.Response
 
 interface ApplicationDataSource {
     suspend fun getApplications(): Response<List<ApplicationApiEntity>>
-    suspend fun putApplication(application: Application)
+    suspend fun putApplication(application: Application): Response<ApplicationApiEntity>
 }

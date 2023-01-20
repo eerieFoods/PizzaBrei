@@ -6,17 +6,21 @@ import com.github.eeriefoods.pizzabrei.domain.model.Application
 import com.github.eeriefoods.pizzabrei.domain.model.ApplicationApiEntity
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 class ApplicationAPIImpl : ApplicationDataSource {
-    var service = Retrofit.Builder()
+    private var applicationService = Retrofit.Builder()
         .baseUrl("http://192.168.178.21:8080/api/v1/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(ApplicationService::class.java)
-    override suspend fun getApplications(): Response<List<ApplicationApiEntity>> = service.getApplications().awaitResponse()
-    override suspend fun putApplication(application: Application) {
-        Log.d("API",application.toString())
+    override suspend fun getApplications(): Response<List<ApplicationApiEntity>> = applicationService.getApplications().awaitResponse()
+
+    override suspend fun putApplication(application: Application): Response<ApplicationApiEntity> {
+        Log.d("API", application.toString())
+        return applicationService.postApplication(application.applicationApi()).awaitResponse()
     }
 }
 
@@ -28,5 +32,8 @@ class ApplicationAPIImpl : ApplicationDataSource {
 interface ApplicationService {
     @GET("application/all")
     fun getApplications(): Call<List<ApplicationApiEntity>>
+
+    @POST("application")
+    fun postApplication(@Body application: ApplicationApiEntity): Call<ApplicationApiEntity>
 
 }
