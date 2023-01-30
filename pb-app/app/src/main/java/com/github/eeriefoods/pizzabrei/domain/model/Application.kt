@@ -6,7 +6,7 @@ data class Application(
     val appId: String? = null,
     val name: String? = null,
     val description: String? = null,
-    var authors: String? = null,
+    val authors: String? = null,
     val fileUrl: String? = null,
     val creationDate: String? = null,
     val downloadCount: Int? = null,
