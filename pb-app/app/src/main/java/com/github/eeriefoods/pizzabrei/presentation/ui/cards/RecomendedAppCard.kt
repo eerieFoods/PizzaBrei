@@ -19,8 +19,10 @@ import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Views
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 
 @Composable
-fun RecomendedAppCard(application: Application, modifier: Modifier,viewModel: HomeViewModel,navController: NavController){
+fun RecomendedAppCard(application: Application?, modifier: Modifier, viewModel: HomeViewModel, navController: NavController){
     PizzaBreiTheme {
+        var selapplication = Application()
+        if(application!= null){ selapplication = application}
         Card (
             modifier = modifier,
             shape = RoundedCornerShape(15.dp),
@@ -31,19 +33,19 @@ fun RecomendedAppCard(application: Application, modifier: Modifier,viewModel: Ho
                     .fillMaxWidth()
                     .padding(8.dp)
                     .clickable {
-                        viewModel.selectedApp = application
+                        viewModel.selectedApp = selapplication
                         navController.navigate(Views.Detail.route)
                     }
             ) {
                 Column(modifier = modifier.padding(start = 5.dp)) {
                     Text(
-                        application.name.toString(),
+                        selapplication.name.toString(),
                         fontSize = 40.sp,
                         textAlign = TextAlign.Center
                     )
-                    Text(application.description.toString())
+                    Text(selapplication.description.toString())
                     Text(
-                        application.version.toString(),
+                        selapplication.version.toString(),
                         modifier = modifier.padding(top = 5.dp),
                         color = Color.LightGray
                     )

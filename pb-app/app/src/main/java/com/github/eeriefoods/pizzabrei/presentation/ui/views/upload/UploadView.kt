@@ -16,14 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
-import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Views
 
 
 @ExperimentalMaterial3Api
 @Composable
 fun UploadView(navController: NavController) {
     PizzaBreiTheme {
-
         Box{
             LazyColumn(
                 modifier = Modifier.fillMaxSize().padding(14.dp),

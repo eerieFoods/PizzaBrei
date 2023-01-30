@@ -1,9 +1,8 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.home
 
-import androidx.compose.runtime.mutableStateListOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.github.eeriefoods.pizzabrei.domain.model.Application
+import androidx.compose.runtime.*
+import androidx.compose.ui.focus.FocusRequester
+import androidx.lifecycle.*
 import com.github.eeriefoods.pizzabrei.domain.model.Review
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetApplications
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetReviews
@@ -20,9 +19,11 @@ class HomeViewModel constructor(
     ) : ViewModel() {
     private val _applications = mutableStateListOf<App>()
     private val _uploadApp = mutableStateListOf<App>()
-    private val _recomendedApps = mutableStateListOf<App>()
+    private val _recommendedApp = mutableStateOf(App())
     private val _reviews = mutableStateListOf<Review>()
     private val _uploadReview = mutableStateListOf<Review>()
+    var searchText = mutableStateOf("")
+    val focusRequester = FocusRequester()
 
     val applications: List<App>
         get() = _applications
@@ -33,12 +34,16 @@ class HomeViewModel constructor(
         get() = _uploadApp[0]
     val uploadReview: Review
         get() = _uploadReview[0]
-    val recommendedApp: App
+
+    var recommendedApp: App = App()
+        get() = _recommendedApp.value
+    val filteredApps: List<App>
         get() {
-            if (_recomendedApps.isEmpty()){return Application()
-            }
-            return _recomendedApps[0]
+            if(applications.isEmpty()){return  applications }
+            return applications.filter {
+                it.name!!.contains(searchText.value, ignoreCase = true)}
         }
+
 
     lateinit var selectedApp: App
 
@@ -64,12 +69,6 @@ class HomeViewModel constructor(
     suspend fun putReview(review: Review){
         viewModelScope.launch {
             _uploadReview.add(putReviewUseCase(review))
-        }
-    }
-    suspend fun getRandomApp(){
-        viewModelScope.launch {
-            _recomendedApps.removeAll(_recomendedApps)
-            _recomendedApps.add(_applications.random())
         }
     }
 }

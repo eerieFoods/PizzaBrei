@@ -12,18 +12,6 @@ create table pb_application
     version        varchar(255) not null
 );
 
-create table pb_application_ratings
-(
-    application_id varchar(255) not null,
-    ratings_id     varchar(255) not null,
-    constraint UK_6ws4gqdg8j8uu2gyie8ucg72g
-        unique (ratings_id),
-    constraint FK8x0fx47lko6viauargafpjgdi
-        foreign key (application_id) references pb_application (id),
-    constraint FKi1gjvvloex48lcw0pjhta5k6i
-        foreign key (ratings_id) references pb_review (id)
-);
-
 create table pb_review
 (
     id             varchar(255) not null
@@ -34,6 +22,18 @@ create table pb_review
     application_id varchar(255) null,
     constraint FK89bhewctvx3gorph3w3pycjkp
         foreign key (application_id) references pb_application (id)
+);
+
+create table pb_application_ratings
+(
+    application_id varchar(255) not null,
+    ratings_id     varchar(255) not null,
+    constraint UK_6ws4gqdg8j8uu2gyie8ucg72g
+        unique (ratings_id),
+    constraint FK8x0fx47lko6viauargafpjgdi
+        foreign key (application_id) references pb_application (id),
+    constraint FKi1gjvvloex48lcw0pjhta5k6i
+        foreign key (ratings_id) references pb_review (id)
 );
 
 

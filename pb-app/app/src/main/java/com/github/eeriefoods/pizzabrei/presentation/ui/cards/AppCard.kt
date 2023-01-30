@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,6 +20,7 @@ import com.github.eeriefoods.pizzabrei.domain.model.Application
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.Views
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
+import com.github.eeriefoods.pizzabrei.R
 
 @Composable
 fun AppCard(application: Application, modifier: Modifier, viewModel: HomeViewModel,navController: NavController) {
@@ -38,6 +40,10 @@ fun AppCard(application: Application, modifier: Modifier, viewModel: HomeViewMod
                         modifier = modifier.clip(RoundedCornerShape(15.dp)),
                         alignment = Alignment.TopStart
                     )
+                }
+                else {
+                    val image = painterResource(id = R.mipmap.app1_icon)
+                    Image(image, "test")
                 }
                 Box(
                     modifier = Modifier
