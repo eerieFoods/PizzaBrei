@@ -1,13 +1,26 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.detail
 
+import android.Manifest
+import android.app.Activity
+import android.app.DownloadManager
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Environment
+import android.provider.Settings
+import android.util.Log
 import android.view.MotionEvent
+import androidx.activity.ComponentActivity
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -17,16 +30,17 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.R
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
-import java.lang.NullPointerException
 
 
 @ExperimentalComposeUiApi
 @Composable
-fun DetailView(viewModel: HomeViewModel, navController: NavController) {
+fun DetailView(viewModel: HomeViewModel, navController: NavController, activity: ComponentActivity) {
      val application = viewModel.selectedApp
     PizzaBreiTheme {
         LazyColumn(
@@ -70,7 +84,26 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController) {
 
             item {
                 Button(onClick = {
+                    Log.d("A", "${activity.packageManager.canRequestPackageInstalls()}")
                     //TODO
+                    if (!hasPermissions(activity.applicationContext)) {
+                        requestPerms(activity)
+                    }
+                    if (!activity.packageManager.canRequestPackageInstalls()) {
+                        activity.startActivity(Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:${activity.applicationContext.packageName}")))
+                    }
+
+                    val context = activity.applicationContext
+
+                    val uri = Uri.parse("http://eeriefoods.de:8000/apkfile.apk") // TODO APK URL!
+                    val request = DownloadManager.Request(uri)
+                    request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
+                    request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, "dummy.apk")
+
+                    val reference = (context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(request)
+                    Log.d("Download", "DownloadID: $reference")
+
                 },
                 Modifier.padding(20.dp)) {
                     Text("Installieren", fontSize = 20.sp)
@@ -100,12 +133,20 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController) {
                     Text("Zurück")
                 }
             }
-
-
         }
-        
     }
+}
 
+private fun hasPermissions(ctx: Context): Boolean {
+    return (ContextCompat.checkSelfPermission(ctx, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)
+}
+
+private fun requestPerms(activity: Activity) {
+    val permissionCode = 42
+    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+    if (!hasPermissions(activity.applicationContext)) {
+        ActivityCompat.requestPermissions(activity, permissions, permissionCode)
+    }
 }
 
 /*

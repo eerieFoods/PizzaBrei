@@ -3,11 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
 
     <application
         android:allowBackup="true"
@@ -18,8 +16,7 @@
         android:theme="@style/Theme.PizzaBrei"
         tools:targetApi="31"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true"
-        >
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".PizzaBrei"
             android:exported="true"
