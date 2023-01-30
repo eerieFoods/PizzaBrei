@@ -3,9 +3,11 @@
 package com.github.eeriefoods.pizzabrei
 
 import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -28,6 +30,8 @@ import com.github.eeriefoods.pizzabrei.domain.usecases.PutReview
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
+import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadViewModel
+
 @ExperimentalFoundationApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterial3Api
@@ -44,6 +48,19 @@ class PizzaBrei : ComponentActivity() {
         val apkUrl = "https://androidwave.com/source/apk/app-pagination-recyclerview.apk"
         downloadController = DownloadController(this, apkUrl)
 
+        val uploadViewModel = UploadViewModel(
+            putApplicationUseCase = PutApplication(
+                repository = ApplicationRepositoryImpl(
+                    dataSource = ApplicationAPIImpl()
+                )
+            ),
+            putReviewUseCase = PutReview(
+                repository = ReviewRepositoryImpl(
+                    dataSource = ReviewAPIImpl()
+                )
+            )
+        )
+
         val homeViewModel = HomeViewModel(
             getApplicationsUseCase = GetApplications(
                 repository = ApplicationRepositoryImpl(
@@ -51,16 +68,6 @@ class PizzaBrei : ComponentActivity() {
                 )
             ),
             getReviewsUseCase = GetReviews(
-                repository = ReviewRepositoryImpl(
-                    dataSource = ReviewAPIImpl()
-                )
-            ),
-            putApplicationUseCase = PutApplication(
-                repository = ApplicationRepositoryImpl(
-                    dataSource = ApplicationAPIImpl()
-                )
-            ),
-            putReviewUseCase = PutReview(
                 repository = ReviewRepositoryImpl(
                     dataSource = ReviewAPIImpl()
                 )
@@ -74,7 +81,7 @@ class PizzaBrei : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavGraph(homeViewModel)
+                    NavGraph(homeViewModel, uploadViewModel)
                 }
             }
         }

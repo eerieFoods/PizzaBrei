@@ -12,6 +12,7 @@ import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeScreen
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.settings.SettingsScreen
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadView
+import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadViewModel
 
 
 @ExperimentalComposeUiApi
@@ -19,7 +20,8 @@ import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadView
 @ExperimentalFoundationApi
 @Composable
 fun NavGraph(
-    viewModel: HomeViewModel,
+    homeViewModel: HomeViewModel,
+    uploadViewModel: UploadViewModel,
     startRoute: String = Views.Home.route,
 ){
     val navController = rememberNavController()
@@ -29,16 +31,16 @@ fun NavGraph(
         startDestination = startRoute)
     {
         composable(route = Views.Home.route){
-            HomeScreen(navController,viewModel)
+            HomeScreen(navController,homeViewModel)
         }
         composable(route = Views.Settings.route){
             SettingsScreen(navController)
         }
         composable(route = Views.Upload.route){
-            UploadView(navController)
+            UploadView(navController, uploadViewModel)
         }
         composable(route = Views.Detail.route){
-            DetailView(viewModel, navController)
+            DetailView(homeViewModel, navController)
         }
     }
 }

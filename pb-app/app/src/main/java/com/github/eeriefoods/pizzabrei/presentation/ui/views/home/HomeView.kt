@@ -68,7 +68,7 @@ private fun ShowCategoryButtons(viewModel: HomeViewModel){
     PizzaBreiTheme {
         Box (Modifier.background(MaterialTheme.colorScheme.surface).padding(8.dp)) {
             Row(horizontalArrangement = Arrangement.SpaceEvenly, modifier = Modifier.fillMaxWidth()) {
-                Button(onClick = { putApp(Application("123","dd", "sd", "lore", "me", LocalDateTime.now().toString(), 3, "1.0"), viewModel) }, Modifier){
+                Button(onClick = {  }, Modifier){
                     Text("Kat1")
                 }
                 Button(onClick = {}, Modifier){
@@ -83,13 +83,3 @@ private fun ShowCategoryButtons(viewModel: HomeViewModel){
     }
 }
 
-private fun putApp(application: Application, viewModel: HomeViewModel) = runBlocking {
-    launch {
-        viewModel.putApplication(application)
-    }
-}
-private suspend fun putReview(review: Review, viewModel: HomeViewModel)= runBlocking {
-    launch {
-        viewModel.putReview(review)
-    }
-}

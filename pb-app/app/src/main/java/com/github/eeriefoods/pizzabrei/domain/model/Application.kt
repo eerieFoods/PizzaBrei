@@ -1,5 +1,6 @@
 package com.github.eeriefoods.pizzabrei.domain.model
 
+import android.net.Uri
 import androidx.compose.ui.graphics.painter.Painter
 
 data class Application(

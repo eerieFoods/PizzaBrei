@@ -1,6 +1,6 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.upload
 
-import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -15,12 +15,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.github.eeriefoods.pizzabrei.domain.model.Application
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.util.UUID
 
 
 @ExperimentalMaterial3Api
 @Composable
-fun UploadView(navController: NavController) {
+fun UploadView(navController: NavController, uploadViewModel: UploadViewModel) {
     PizzaBreiTheme {
         Box{
             LazyColumn(
@@ -29,9 +33,9 @@ fun UploadView(navController: NavController) {
                 verticalArrangement = Arrangement.Center,
             ) {
 
-                item { ShowTextFields() }
+                item { ShowTextFields(uploadViewModel) }
 
-                item {ShowButtons(navController)}
+                item {ShowButtons(navController, uploadViewModel)}
 
                 item {
 
@@ -44,55 +48,39 @@ fun UploadView(navController: NavController) {
 
  @ExperimentalMaterial3Api
  @Composable
- private fun ShowTextFields(){
-     var author by remember {
-         mutableStateOf("")
-     }
-     var appName by remember {
-         mutableStateOf("")
-     }
-     var version by remember {
-         mutableStateOf("")
-     }
-     var description by remember {
-         mutableStateOf("")
-     }
-
-     var imageUri by remember {
-         mutableStateOf<Uri?>(null)
-     }
+ private fun ShowTextFields(view: UploadViewModel){
 
      Column(verticalArrangement = Arrangement.spacedBy(8.dp)){
          TextField(
-             value = appName,
+             value = view.name.value,
              onValueChange = {
-                 appName = it
+                 view.name.value = it
              },
              label = { Text("Name") },
              placeholder = { Text("App Name") },
              singleLine = true
          )
          TextField(
-             value = author,
+             value = view.author.value,
              onValueChange = {
-                 author = it
+                 view.author.value = it
              },
              label = { Text("Author") },
              placeholder = { Text("Author 1, Author 2, ...") }
          )
          TextField(
-             value = version,
+             value = view.version.value,
              onValueChange = {
-                 version = it
+                 view.version.value = it
              },
              label = { Text("Version") },
              placeholder = { Text("0.3.9") },
              singleLine = true
          )
          TextField(
-             value = description,
+             value = view.description.value,
              onValueChange = {
-                 description = it
+                 view.description.value = it
              },
              label = { Text("Beschreibung") }
          )
@@ -100,20 +88,29 @@ fun UploadView(navController: NavController) {
  }
 
 @Composable
-fun ShowButtons(navController: NavController) {
-    val pickPictureLauncher = rememberLauncherForActivityResult(
+fun ShowButtons(navController: NavController, view: UploadViewModel) {
+
+    val pickApkLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.GetContent()
-    ) { imageUri ->
-        if (imageUri != null) {
-            // Update the state with the Uri
-            println(imageUri)
+    ) { ApkUri ->
+        if (ApkUri != null) {
+            Log.d("ApkUri", ApkUri.pathSegments.toString() + ApkUri.isAbsolute + ApkUri.isRelative)
+            view.apkUri.value = ApkUri.path
+        }
+    }
+    val pickImageLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { ImageUri ->
+        if (ImageUri != null) {
+            Log.d("ApkUri", ImageUri.toString() + ImageUri.isAbsolute + ImageUri.isRelative)
+            view.imageUri.value = ImageUri.path
         }
     }
     Column {
         LazyRow {
             item {
                 Button(onClick = {
-                    pickPictureLauncher.launch("image/*")
+                    pickImageLauncher.launch("image/*")
                 }, Modifier.padding(8.dp)) {
                     Text("Image Picker!")
                 }
@@ -121,17 +118,24 @@ fun ShowButtons(navController: NavController) {
 
             item {
                 Button(onClick = {
-                    pickPictureLauncher.launch("application/vnd.android.package-archive")
+                    pickApkLauncher.launch("*/*")
                 }, Modifier.padding(8.dp)) {
                     Text("Select APK")
                 }
             }
         }
         Button(onClick = {
+            val app = Application(appId = UUID.randomUUID().toString(), name = view.name.value, description = view.description.value, authors = view.author.value, version = view.version.value, fileUrl = view.apkUri.value)
+            putApp(app, view)
             navController.navigateUp()
         },
             Modifier.align(Alignment.CenterHorizontally)) {
             Text("Upload App")
         }
+    }
+}
+private fun putApp(application: Application, viewModel: UploadViewModel) = runBlocking {
+    launch {
+        viewModel.putApplication(application)
     }
 }

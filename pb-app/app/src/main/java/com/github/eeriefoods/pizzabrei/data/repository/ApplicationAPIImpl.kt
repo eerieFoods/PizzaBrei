@@ -1,14 +1,17 @@
 package com.github.eeriefoods.pizzabrei.data.repository
 
+import android.app.Application
 import android.util.Log
+import androidx.core.net.toUri
 import com.github.eeriefoods.pizzabrei.data.datasource.ApplicationDataSource
-import com.github.eeriefoods.pizzabrei.domain.model.Application
+import com.github.eeriefoods.pizzabrei.domain.model.Application as App
 import com.github.eeriefoods.pizzabrei.domain.model.ApplicationApiEntity
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import java.io.File
 
 class ApplicationAPIImpl : ApplicationDataSource {
     private var applicationService = Retrofit.Builder()
@@ -18,12 +21,12 @@ class ApplicationAPIImpl : ApplicationDataSource {
         .create(ApplicationService::class.java)
     override suspend fun getApplications(): Response<List<ApplicationApiEntity>> = applicationService.getApplications().awaitResponse()
 
-    override suspend fun putApplication(application: Application): Response<ApplicationApiEntity> {
+    override suspend fun putApplication(application: App): Response<ApplicationApiEntity> {
         Log.d("API", application.toString())
+        Log.d("test", File(application.fileUrl!!.toString()).readBytes().toString())
         return applicationService.postApplication(application.applicationApi()).awaitResponse()
     }
 }
-
 
 
 //TODO ADD BACKEND API CALLS//
