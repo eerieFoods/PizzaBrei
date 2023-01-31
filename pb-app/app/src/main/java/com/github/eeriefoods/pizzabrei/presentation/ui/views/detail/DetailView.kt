@@ -34,6 +34,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.API_ENDPOINT
+import com.github.eeriefoods.pizzabrei.APK_MIME_TYPE
 import com.github.eeriefoods.pizzabrei.R
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
@@ -54,12 +55,14 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController, activity:
             var version = ""
             var description = ""
             var downloads = 0
+            var appId = ""
             try{
                 name = application.name!!
                 authors = application.authors!!
                 version = application.version!!
                 description = application.description!!
                 downloads = application.downloadCount!!
+                appId = application.appId!!
             }catch (e: NullPointerException) {
                 e.printStackTrace()
             }
@@ -85,8 +88,6 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController, activity:
 
             item {
                 Button(onClick = {
-                    Log.d("A", "${activity.packageManager.canRequestPackageInstalls()}")
-                    //TODO
                     if (!hasPermissions(activity.applicationContext)) {
                         requestPerms(activity)
                     }
@@ -96,12 +97,14 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController, activity:
 
                     val context = activity.applicationContext
 
-                    val uri = Uri.parse("${API_ENDPOINT}/apkfile.apk") // TODO APK URL!
+                    val uri = Uri.parse("$API_ENDPOINT/apk/$appId")
+                    Log.d("ENDPOINT", "$API_ENDPOINT/apk/$appId")
 
                     val request = DownloadManager.Request(uri)
                     request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                     request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, "dummy.apk")
+                    request.setMimeType(APK_MIME_TYPE)
 
                     val reference = (context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(request)
                     Log.d("Download", "DownloadID: $reference")
