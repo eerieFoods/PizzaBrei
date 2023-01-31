@@ -15,7 +15,7 @@ data class Application(
     val reviews: List<Review>? = null,
     val images: List<Painter>? = null
 ){
-    fun applicationApi(): ApplicationApiEntity {
+    fun applicationToApi(): ApplicationApiEntity {
         return ApplicationApiEntity(
             appId = appId,
             name = name,

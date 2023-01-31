@@ -1,6 +1,12 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.upload
 
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
+import android.os.Environment
 import android.util.Log
+import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
@@ -14,19 +20,39 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import com.github.eeriefoods.pizzabrei.domain.model.Application
 import coil.compose.AsyncImage
+import com.github.eeriefoods.pizzabrei.data.repository.ApplicationAPIImpl
+import com.github.eeriefoods.pizzabrei.data.repository.ApplicationRepositoryImpl
+import com.github.eeriefoods.pizzabrei.data.repository.ReviewAPIImpl
+import com.github.eeriefoods.pizzabrei.data.repository.ReviewRepositoryImpl
+import com.github.eeriefoods.pizzabrei.domain.model.Application
+import com.github.eeriefoods.pizzabrei.domain.usecases.PutApplication
+import com.github.eeriefoods.pizzabrei.domain.usecases.PutReview
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.util.UUID
+import kotlinx.coroutines.*
+import java.io.File
+import java.io.InputStream
+import java.nio.charset.Charset
+import java.util.*
 
 
 @ExperimentalMaterial3Api
 @Composable
-fun UploadView(navController: NavController) {
-    val uploadViewModel = UploadViewModel()
+fun UploadView(navController: NavController, activity: ComponentActivity) {
+    val uploadViewModel = UploadViewModel(
+        putApplicationUseCase = PutApplication(
+            repository = ApplicationRepositoryImpl(
+                dataSource = ApplicationAPIImpl()
+            )
+        ),
+        putReviewUseCase = PutReview(
+            repository = ReviewRepositoryImpl(
+                dataSource = ReviewAPIImpl()
+            )
+        )
+    )
 
     PizzaBreiTheme {
         Box{
@@ -38,7 +64,7 @@ fun UploadView(navController: NavController) {
 
                 item { ShowTextFields(uploadViewModel) }
 
-                item {ShowButtons(navController, uploadViewModel)}
+                item {ShowButtons(navController, uploadViewModel, activity)}
 
                 item {
 
@@ -91,18 +117,27 @@ fun UploadView(navController: NavController) {
  }
 
 @Composable
-fun ShowButtons(navController: NavController, view: UploadViewModel) {
+fun ShowButtons(navController: NavController, viewModel: UploadViewModel, activity: ComponentActivity) {
+
+    val path: File = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_DOWNLOADS
+    )
+    val file: File = File(path, "YouTube_18.04.35_Apkpure.apk")
 
     val pickPictureLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
-        view.hasImage.value = it != null
-        view.imageUri.value = it
+        viewModel.hasImage.value = it != null
+        viewModel.imageUri.value = it
         Log.d("Api", it.toString())
     }
 
     val apkSelectLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
-        view.hasApk.value = it != null
-        view.apkUri.value = it
-        Log.d("Api", it.toString())
+        activity.lifecycleScope.launch(){
+            viewModel.hasApk.value = it != null
+            viewModel.apkUri.value = it
+            Log.d("Api", it.toString())
+            val data = read(activity.applicationContext, it!!)
+        }
+
     }
 
     Column {
@@ -124,8 +159,8 @@ fun ShowButtons(navController: NavController, view: UploadViewModel) {
             }
         }
         Button(onClick = {
-            val app = Application(appId = UUID.randomUUID().toString(), name = view.name.value, description = view.description.value, authors = view.author.value, version = view.version.value, fileUrl = view.apkUri.value)
-            putApp(app, view)
+            val app = Application(appId = UUID.randomUUID().toString(), name = viewModel.name.value, description = viewModel.description.value, authors = viewModel.author.value, version = viewModel.version.value, fileUrl = viewModel.apkUri.value.toString())
+            putApp(app, viewModel, activity)
             navController.navigateUp()
         },
             Modifier.align(Alignment.CenterHorizontally)) {
@@ -137,8 +172,16 @@ fun ShowButtons(navController: NavController, view: UploadViewModel) {
         }
     }
 }
-private fun putApp(application: Application, viewModel: UploadViewModel) = runBlocking {
+private fun putApp(application: Application, viewModel: UploadViewModel, activity: ComponentActivity) = runBlocking {
     launch {
-        viewModel.putApplication(application)
+        viewModel.putApplication(application, activity)
     }
 }
+suspend fun read(context: Context, source: Uri): String = withContext(Dispatchers.IO) {
+    val resolver: ContentResolver = context.contentResolver
+
+    resolver.openInputStream(source)?.use { stream -> stream.readText() }
+        ?: throw IllegalStateException("could not open $source")
+}
+
+private fun InputStream.readText(charset: Charset = Charsets.UTF_8): String = readBytes().toString(charset)

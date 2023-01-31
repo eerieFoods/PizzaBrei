@@ -1,6 +1,7 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.views.upload
 
 import android.net.Uri
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -29,10 +30,10 @@ class UploadViewModel constructor(
 
 
 
-    suspend fun putApplication(application: Application) {
+    suspend fun putApplication(application: Application, activity: ComponentActivity) {
         viewModelScope.launch{
             _uploadApp.removeAll(_uploadApp)
-            _uploadApp.add(putApplicationUseCase(application))
+            _uploadApp.add(putApplicationUseCase(application, activity))
         }
     }
     suspend fun putReview(review: Review){
