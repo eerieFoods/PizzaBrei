@@ -90,27 +90,22 @@ fun UploadView(navController: NavController, uploadViewModel: UploadViewModel) {
 @Composable
 fun ShowButtons(navController: NavController, view: UploadViewModel) {
 
-    val pickApkLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { ApkUri ->
-        if (ApkUri != null) {
-            Log.d("ApkUri", ApkUri.pathSegments.toString() + ApkUri.isAbsolute + ApkUri.isRelative)
-            view.apkUri.value = ApkUri.path
-        }
+    val pickPictureLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
+        view.hasImage.value = it != null
+        view.imageUri.value = it.toString()
+        Log.d("Api", it.toString())
     }
-    val pickImageLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.GetContent()
-    ) { ImageUri ->
-        if (ImageUri != null) {
-            Log.d("ApkUri", ImageUri.toString() + ImageUri.isAbsolute + ImageUri.isRelative)
-            view.imageUri.value = ImageUri.path
-        }
+
+    val apkSelectLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
+        view.hasApk.value = it != null
+        view.apkUri.value = it.toString()
+        Log.d("Api", it.toString())
     }
     Column {
         LazyRow {
             item {
                 Button(onClick = {
-                    pickImageLauncher.launch("image/*")
+                    pickPictureLauncher.launch("image/*")
                 }, Modifier.padding(8.dp)) {
                     Text("Image Picker!")
                 }
@@ -118,7 +113,7 @@ fun ShowButtons(navController: NavController, view: UploadViewModel) {
 
             item {
                 Button(onClick = {
-                    pickApkLauncher.launch("*/*")
+                    apkSelectLauncher.launch("*/*")
                 }, Modifier.padding(8.dp)) {
                     Text("Select APK")
                 }

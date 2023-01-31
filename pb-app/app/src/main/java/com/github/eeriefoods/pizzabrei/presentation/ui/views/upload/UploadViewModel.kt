@@ -24,6 +24,8 @@ class UploadViewModel constructor(
     var version = mutableStateOf("")
     var imageUri = mutableStateOf<String?>(null)
     var apkUri = mutableStateOf<String?>(null)
+    var hasImage = mutableStateOf(false)
+    var hasApk = mutableStateOf(false)
 
 
 

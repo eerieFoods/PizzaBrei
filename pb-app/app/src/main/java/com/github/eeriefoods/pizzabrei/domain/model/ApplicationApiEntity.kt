@@ -1,8 +1,5 @@
 package com.github.eeriefoods.pizzabrei.domain.model
 
-import android.net.Uri
-
-
 data class ApplicationApiEntity(
     val appId: String?,
     val name: String?,
