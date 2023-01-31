@@ -18,7 +18,7 @@ class AppPackageService(
     fun storeFile(file: MultipartFile, appId: String): String {
 
         val con: FTPClient?
-        val errMsg: String?
+        var errMsg: String?
 
         try {
             con = FTPClient()
@@ -39,14 +39,15 @@ class AppPackageService(
                 con.storeFile(remotePath, file.inputStream)
                 con.logout()
                 con.disconnect()
+                return "$appId.apk"
             }
-            return "$appId.apk"
+           errMsg = "login"
 
         } catch (e: Exception) {
             e.printStackTrace()
             errMsg = e.localizedMessage
         }
-        return "error $errMsg"
+        return "error: $errMsg"
     }
 
     fun load(appId: String): Resource {

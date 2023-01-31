@@ -14,16 +14,16 @@ import retrofit2.http.*
 import java.io.*
 
 class ApplicationAPIImpl : ApplicationDataSource {
-    private var applicationGetService = Retrofit.Builder()
-        .baseUrl("http://eeriefoods.de:8080/api/v1/")
+    private var applicationService = Retrofit.Builder()
+        .baseUrl("$API_ENDPOINT/")
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
         .build()
         .create(ApplicationService::class.java)
-    override suspend fun getApplications(): Response<List<ApplicationApiEntity>> = applicationGetService.getApplications().awaitResponse()
+    override suspend fun getApplications(): Response<List<ApplicationApiEntity>> = applicationService.getApplications().awaitResponse()
 
     override suspend fun putApplication(application: Application, activity: ComponentActivity): Response<ApplicationApiEntity> {
 
-        val response = applicationGetService.postApplication(application.applicationToApi()).awaitResponse()
+        val response = applicationService.postApplication(application.applicationToApi()).awaitResponse()
 
         val fileDescriptor = activity.contentResolver.openFile(Uri.parse(application.fileUrl), "r",null)
         val input = FileInputStream(fileDescriptor?.fileDescriptor)
@@ -32,7 +32,7 @@ class ApplicationAPIImpl : ApplicationDataSource {
         val fileSaved = writeFile(file, byteArray)
 
         if (fileSaved) {
-            applicationGetService.uploadAPK("apk/" + application.appId,MultipartBody.Part.createFormData("file", file.name, file.asRequestBody())).awaitResponse()
+            applicationService.uploadAPK("apk/" + application.appId,MultipartBody.Part.createFormData("file", file.name, file.asRequestBody())).awaitResponse()
         }
 
         return response
