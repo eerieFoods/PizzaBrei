@@ -15,7 +15,7 @@ import java.io.File
 
 class ApplicationAPIImpl : ApplicationDataSource {
     private var applicationService = Retrofit.Builder()
-        .baseUrl("http://192.168.178.21:8080/api/v1/")
+        .baseUrl("http://192.168.178.42:8080/api/v1/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(ApplicationService::class.java)

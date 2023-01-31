@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.github.eeriefoods.pizzabrei.domain.model.Application
+import coil.compose.AsyncImage
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -24,7 +25,9 @@ import java.util.UUID
 
 @ExperimentalMaterial3Api
 @Composable
-fun UploadView(navController: NavController, uploadViewModel: UploadViewModel) {
+fun UploadView(navController: NavController) {
+    val uploadViewModel = UploadViewModel()
+
     PizzaBreiTheme {
         Box{
             LazyColumn(
@@ -92,30 +95,31 @@ fun ShowButtons(navController: NavController, view: UploadViewModel) {
 
     val pickPictureLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         view.hasImage.value = it != null
-        view.imageUri.value = it.toString()
+        view.imageUri.value = it
         Log.d("Api", it.toString())
     }
 
     val apkSelectLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) {
         view.hasApk.value = it != null
-        view.apkUri.value = it.toString()
+        view.apkUri.value = it
         Log.d("Api", it.toString())
     }
+
     Column {
         LazyRow {
             item {
                 Button(onClick = {
                     pickPictureLauncher.launch("image/*")
                 }, Modifier.padding(8.dp)) {
-                    Text("Image Picker!")
+                    Text("Bild auswählen")
                 }
             }
 
             item {
                 Button(onClick = {
-                    apkSelectLauncher.launch("*/*")
+                    apkSelectLauncher.launch("application/vnd.android.package-archive")
                 }, Modifier.padding(8.dp)) {
-                    Text("Select APK")
+                    Text("APK Auswählen")
                 }
             }
         }
@@ -125,7 +129,11 @@ fun ShowButtons(navController: NavController, view: UploadViewModel) {
             navController.navigateUp()
         },
             Modifier.align(Alignment.CenterHorizontally)) {
-            Text("Upload App")
+            Text("App Hochladen")
+        }
+
+        if (viewModel.hasImage.value) {
+            AsyncImage(model = viewModel.imageUri.value, contentDescription = "Ausgewähltes Bild", modifier = Modifier.fillMaxWidth())
         }
     }
 }
