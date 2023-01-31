@@ -25,7 +25,7 @@ class AppPackageController(
         return try {
             appPackageService.storeFile(file, appId);
         } catch (e: Exception) {
-            e.message ?: e.localizedMessage
+            "{\"error\": \"${e.message ?: e.localizedMessage}\"}"
         }
     }
 
