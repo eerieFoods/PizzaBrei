@@ -2,6 +2,7 @@ package com.github.eeriefoods.pizzabrei.data.repository
 
 import android.net.Uri
 import androidx.activity.ComponentActivity
+import com.github.eeriefoods.pizzabrei.API_ENDPOINT
 import com.github.eeriefoods.pizzabrei.data.datasource.ApplicationDataSource
 import com.github.eeriefoods.pizzabrei.domain.model.Application
 import com.github.eeriefoods.pizzabrei.domain.model.ApplicationApiEntity
