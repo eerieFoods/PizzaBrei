@@ -41,7 +41,7 @@ import java.io.File
 import kotlin.math.absoluteValue
 
 const val APK_MIME_TYPE = "application/vnd.android.package-archive"
-
+const val API_ENDPOINT = "http://eeriefoods.de:8080/api/v1"
 @ExperimentalFoundationApi
 @ExperimentalComposeUiApi
 @ExperimentalMaterial3Api

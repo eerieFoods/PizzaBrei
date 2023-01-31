@@ -1,6 +1,7 @@
 package com.github.eeriefoods.pizzabrei.data.repository
 
 import android.util.Log
+import com.github.eeriefoods.pizzabrei.API_ENDPOINT
 import com.github.eeriefoods.pizzabrei.data.datasource.ApplicationDataSource
 import com.github.eeriefoods.pizzabrei.domain.model.Application
 import com.github.eeriefoods.pizzabrei.domain.model.ApplicationApiEntity
@@ -12,7 +13,7 @@ import retrofit2.http.POST
 
 class ApplicationAPIImpl : ApplicationDataSource {
     private var applicationService = Retrofit.Builder()
-        .baseUrl("http://192.168.178.42:8080/api/v1/")
+        .baseUrl("$API_ENDPOINT/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(ApplicationService::class.java)

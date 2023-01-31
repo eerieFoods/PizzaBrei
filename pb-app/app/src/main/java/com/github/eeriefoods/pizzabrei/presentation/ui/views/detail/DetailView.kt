@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import com.github.eeriefoods.pizzabrei.API_ENDPOINT
 import com.github.eeriefoods.pizzabrei.R
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
@@ -95,7 +96,8 @@ fun DetailView(viewModel: HomeViewModel, navController: NavController, activity:
 
                     val context = activity.applicationContext
 
-                    val uri = Uri.parse("http://eeriefoods.de:8000/apkfile.apk") // TODO APK URL!
+                    val uri = Uri.parse("${API_ENDPOINT}/apkfile.apk") // TODO APK URL!
+
                     val request = DownloadManager.Request(uri)
                     request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
                     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_HIDDEN)
