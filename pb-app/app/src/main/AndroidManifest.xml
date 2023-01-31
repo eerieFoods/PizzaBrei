@@ -16,7 +16,10 @@
         android:theme="@style/Theme.PizzaBrei"
         tools:targetApi="31"
         android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:icon="@mipmap/pizzabrei"
+        android:roundIcon="@mipmap/pizzabrei_round"
+        >
         <activity
             android:name=".PizzaBrei"
             android:exported="true"
