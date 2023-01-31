@@ -42,7 +42,7 @@ fun AppCard(application: Application, modifier: Modifier, viewModel: HomeViewMod
             ) {
                 Column(Modifier.align(Alignment.Center)) {
                     Box(
-                        Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer).size(84.dp)){
+                        Modifier.clip(CircleShape).background(MaterialTheme.colorScheme.primaryContainer).size(64.dp)){
                         if (!application.images.isNullOrEmpty()) {
                             Image(
                                 painter = application.images.first(),
