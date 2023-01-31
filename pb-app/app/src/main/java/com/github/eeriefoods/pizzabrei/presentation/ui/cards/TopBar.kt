@@ -37,7 +37,7 @@ fun TopBar(navController: NavController, viewModel: HomeViewModel){
                                 .clickable {
                                     navController.navigate(Views.Upload.route)
                                 }) {
-                            Text("P", Modifier.align(Alignment.Center))
+                            Text("U", Modifier.align(Alignment.Center))
                         }
                         Box(Modifier.clip(CircleShape).fillMaxSize()){
                             TextField(

@@ -1,6 +1,5 @@
 package com.github.eeriefoods.pizzabrei.domain.model
 
-
 data class ApplicationApiEntity(
     val appId: String?,
     val name: String?,

@@ -19,7 +19,8 @@
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/pizzabrei"
         android:roundIcon="@mipmap/pizzabrei_round"
-        >
+        android:hardwareAccelerated="false"
+        android:largeHeap="true" >
         <activity
             android:name=".PizzaBrei"
             android:exported="true"

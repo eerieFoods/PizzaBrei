@@ -2,11 +2,11 @@
 
 package com.github.eeriefoods.pizzabrei
 
+import android.content.Intent
 import android.Manifest
 import android.app.DownloadManager
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -32,8 +32,6 @@ import com.github.eeriefoods.pizzabrei.data.repository.ReviewAPIImpl
 import com.github.eeriefoods.pizzabrei.data.repository.ReviewRepositoryImpl
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetApplications
 import com.github.eeriefoods.pizzabrei.domain.usecases.GetReviews
-import com.github.eeriefoods.pizzabrei.domain.usecases.PutApplication
-import com.github.eeriefoods.pizzabrei.domain.usecases.PutReview
 import com.github.eeriefoods.pizzabrei.presentation.theme.PizzaBreiTheme
 import com.github.eeriefoods.pizzabrei.presentation.ui.navigation.NavGraph
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
@@ -70,16 +68,6 @@ class PizzaBrei : ComponentActivity() {
                 )
             ),
             getReviewsUseCase = GetReviews(
-                repository = ReviewRepositoryImpl(
-                    dataSource = ReviewAPIImpl()
-                )
-            ),
-            putApplicationUseCase = PutApplication(
-                repository = ApplicationRepositoryImpl(
-                    dataSource = ApplicationAPIImpl()
-                )
-            ),
-            putReviewUseCase = PutReview(
                 repository = ReviewRepositoryImpl(
                     dataSource = ReviewAPIImpl()
                 )

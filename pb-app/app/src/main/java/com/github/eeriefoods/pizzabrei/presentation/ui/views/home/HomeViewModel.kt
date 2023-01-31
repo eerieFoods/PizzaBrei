@@ -14,14 +14,10 @@ import kotlinx.coroutines.launch
 class HomeViewModel constructor(
     private val getApplicationsUseCase: GetApplications,
     private val getReviewsUseCase: GetReviews,
-    private val putApplicationUseCase: PutApplication,
-    private val putReviewUseCase: PutReview
     ) : ViewModel() {
     private val _applications = mutableStateListOf<App>()
-    private val _uploadApp = mutableStateListOf<App>()
     private val _recommendedApp = mutableStateOf(App())
     private val _reviews = mutableStateListOf<Review>()
-    private val _uploadReview = mutableStateListOf<Review>()
     var searchText = mutableStateOf("")
     val focusRequester = FocusRequester()
 
@@ -30,10 +26,6 @@ class HomeViewModel constructor(
 
     val reviews: List<Review>
         get() = _reviews
-    val uploadApp: App
-        get() = _uploadApp[0]
-    val uploadReview: Review
-        get() = _uploadReview[0]
 
     var recommendedApp: App = App()
         get() = _recommendedApp.value
@@ -61,14 +53,5 @@ class HomeViewModel constructor(
         }
     }
 
-    suspend fun putApplication(application: App) {
-        viewModelScope.launch{
-            _uploadApp.add(putApplicationUseCase(application))
-        }
-    }
-    suspend fun putReview(review: Review){
-        viewModelScope.launch {
-            _uploadReview.add(putReviewUseCase(review))
-        }
-    }
+
 }

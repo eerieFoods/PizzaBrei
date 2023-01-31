@@ -20,7 +20,7 @@ import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadView
 @ExperimentalFoundationApi
 @Composable
 fun NavGraph(
-    viewModel: HomeViewModel,
+    homeViewModel: HomeViewModel,
     activity: ComponentActivity,
     startRoute: String = Views.Home.route
 ){
@@ -31,16 +31,16 @@ fun NavGraph(
         startDestination = startRoute)
     {
         composable(route = Views.Home.route){
-            HomeScreen(navController,viewModel)
+            HomeScreen(navController,homeViewModel)
         }
         composable(route = Views.Settings.route){
             SettingsScreen(navController)
         }
         composable(route = Views.Upload.route){
-            UploadView(navController)
+            UploadView(navController, activity)
         }
         composable(route = Views.Detail.route){
-            DetailView(viewModel, navController, activity)
+            DetailView(homeViewModel, navController, activity)
         }
     }
 }
