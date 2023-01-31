@@ -15,4 +15,11 @@ Although it is possible to run it locally. A separate [docker environment](docke
 ### Frontend
 
 The frontend Module `pb-app` can be loaded in AndroidStudio and be executed.  
+alternatively it is possible to download the app package from the _Releases_-Section and install it directly.  
 Make sure to enable _Install from unknown sources_ on your device!
+
+---
+
+### Note
+
+This app contains dummy apk-files downloaded form the internet. It is not recommended to install these temporary apps found in our store on your personal device!
