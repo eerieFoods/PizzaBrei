@@ -1,5 +1,6 @@
 package com.github.eeriefoods.pizzabrei.presentation.ui.navigation
 
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -8,8 +9,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.detail.DetailView
-import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeScreen
+import com.github.eeriefoods.pizzabrei.presentation.ui.views.home.HomeViewModel
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.settings.SettingsScreen
 import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadView
 
@@ -20,7 +21,8 @@ import com.github.eeriefoods.pizzabrei.presentation.ui.views.upload.UploadView
 @Composable
 fun NavGraph(
     viewModel: HomeViewModel,
-    startRoute: String = Views.Home.route,
+    activity: ComponentActivity,
+    startRoute: String = Views.Home.route
 ){
     val navController = rememberNavController()
 
@@ -38,7 +40,7 @@ fun NavGraph(
             UploadView(navController)
         }
         composable(route = Views.Detail.route){
-            DetailView(viewModel, navController)
+            DetailView(viewModel, navController, activity)
         }
     }
 }
